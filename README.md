@@ -12,9 +12,7 @@ pip install pyserial
 ## Download flashtnc Repository
 * Click the green button above that says **Code**. Select "Download Zip".
 * Extract the zip file into a directory you can navigate to easily from a command line. I used C:\flashtnc.
-## Download N9600A NinoTNC Firmware
-v2.51: https://www.dropbox.com/s/457s5aizgxg0byc/N9600A-v2-5-1.hex  
-It's easiest if you place this file in the same directory as flashtnc.py
+* The repository includes latest firmware hex file.
 ## Determine Serial Port Device Identifier
 * The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
 * In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT).  
