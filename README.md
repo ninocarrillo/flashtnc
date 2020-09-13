@@ -19,10 +19,17 @@ sudo apt-get install python3 python3-pip
 ````
 pip3 instal pyserial
 ````
-## Download flashtnc Repository
+## Download flashtnc Repository in Windows or Graphical Linux
 * Click the green button above that says **Code**. Select "Download Zip".
 * Extract the zip file into a directory you can navigate to easily from a command line.
 * The repository includes latest firmware hex file.
+## Alternatively, Clone Repository Using git (Linux command line)
+First two lines not required if you already have git installed.
+````
+sudo apt-get update
+sudo apt-get install git
+git clone https://github.com/ninocarrillo/flashtnc
+````
 ## Determine Serial Port Device Identifier
 * The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
 * In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT).  
