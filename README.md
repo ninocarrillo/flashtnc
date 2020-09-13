@@ -90,5 +90,6 @@ Lines written:  9000
 End time:  20:44:32
 Line count:  9415
 Firmware update successful.
+nino@islay:~/flashtnc$ 
 ````
 ## Need Help? Head over to the NinoTNC forum on https://groups.io
