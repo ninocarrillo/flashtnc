@@ -9,6 +9,9 @@ Firmware updater for N9600A TNCs. This Python3 script uses the bootloader reside
 ````
 pip install pyserial
 ````
+## Download flashtnc Repository
+* Click the green button above that says **Code**. Select "Download Zip".
+* Extract the zip file into a directory you can navigate to easily from a command line. I used C:\flashtnc.
 ## Download N9600A NinoTNC Firmware
 v2.51: https://www.dropbox.com/s/457s5aizgxg0byc/N9600A-v2-5-1.hex  
 It's easiest if you place this file in the same directory as flashtnc.py
