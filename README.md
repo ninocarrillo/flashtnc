@@ -17,7 +17,7 @@ sudo apt-get install python3 python3-pip
 ````
 2. Install pyserial.
 ````
-pip3 instal pyserial
+pip3 install pyserial
 ````
 ## Download flashtnc Repository in Windows or Graphical Linux
 * Click the green button above that says **Code**. Select "Download Zip".
