@@ -11,7 +11,7 @@ pip install pyserial
 ````
 ## Download flashtnc Repository
 * Click the green button above that says **Code**. Select "Download Zip".
-* Extract the zip file into a directory you can navigate to easily from a command line. I used C:\flashtnc.
+* Extract the zip file into a directory you can navigate to easily from a command line.
 * The repository includes latest firmware hex file.
 ## Determine Serial Port Device Identifier
 * The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
@@ -29,14 +29,14 @@ python flashtnc.py [hex file] [serial device]
 During firmware update, the LEDs on the TNC will all light up and some will flash extremely quickly (it will just look like dimming). You'll see a progressive line count as the hex file is transferred. Recent firmware has around 9500 lines. It will take about 2 minutes or less to update the firmware once the script is started. The TNC will reboot when the update is complete.
 ## Windows 10 PowerShell Example
 ````
-PS C:\flashtnc> python flashtnc.py N9600A-v2-7-0.hex com18
+PS C:\flashtnc-master> python flashtnc.py N9600A-v2-5-1.hex com18
 Opened port com18
-Opened file N9600A-v2-7-0.hex
+Opened file N9600A-v2-5-1.hex
 Starting TNC reflash mode. Don't interrupt this process, the dsPIC will brick.
 TNC successfully entered bootloader mode.
 TNC bootlader version:  a
 TNC ready for hex file, starting transfer. This will take a few minutes.
-Start time:  19:09:44
+Start time:  20:15:02
 Lines written:  1000
 Lines written:  2000
 Lines written:  3000
@@ -46,9 +46,9 @@ Lines written:  6000
 Lines written:  7000
 Lines written:  8000
 Lines written:  9000
-End time:  19:11:13
-Line count:  9449
+End time:  20:16:37
+Line count:  9415
 Firmware update successful.
-PS C:\flashtnc>
+PS C:\flashtnc-master>
 ````
 ## Need Help? Head over to the NinoTNC forum on https://groups.io
