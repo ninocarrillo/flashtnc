@@ -4,4 +4,4 @@ Firmware updater for N9600A TNCs
 * Python3
 * pyserial module
 ## Usage
-python flashtnc.py <hex file> <serial device>
+python flashtnc.py *hex file* *serial device*
