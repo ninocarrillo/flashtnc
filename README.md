@@ -3,11 +3,21 @@ Firmware updater for N9600A TNCs. This Python3 script uses the bootloader reside
 ## Software Requirements
 * Python3 
 * pyserial module
-## Installing Python3 and pyserial
+## Installing Python3 and pyserial in Windows
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
-2. Install the pyserial module using pip, which is included with Python3. Do this from a command line. In Windows open PowerShell (right click Windows Menu icon, or search for PowerShell). In Linux, you're probably already at a command line :)
+2. Install the pyserial module using pip, which is included with Python3. Do this from a command line. Open PowerShell (right click Windows Menu icon, or search for PowerShell).
 ````
 pip3 install pyserial
+````
+## Installing Python3 and pyserial in Debian Linux
+1. Install Python3 and pip through the package manager.  
+````
+sudo apt-get update
+sudo apt-get install python3 python3-pip
+````
+2. Install pyserial.
+````
+pip3 instal pyserial
 ````
 ## Download flashtnc Repository
 * Click the green button above that says **Code**. Select "Download Zip".
