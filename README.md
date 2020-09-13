@@ -7,7 +7,7 @@ Firmware updater for N9600A TNCs. This Python3 script uses the bootloader reside
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
 2. Install the pyserial module using pip, which is included with Python3. Do this from a command line. In Windows open PowerShell (right click Windows Menu icon, or search for PowerShell). In Linux, you're probably already at a command line :)
 ````
-pip install pyserial
+pip3 install pyserial
 ````
 ## Download flashtnc Repository
 * Click the green button above that says **Code**. Select "Download Zip".
@@ -24,12 +24,12 @@ sudo dmesg | grep tty
 **Make sure there are no programs running that will access the TNC! Stop all programs that interact with the TNC. If any program accesses the same serial port during firmware update, the dsPIC will certainly brick. Recovery will require an In-Circuit Serial Programmer or replacement of the dsPIC.**
 ## flashtnc Command Line Usage
 ````
-python flashtnc.py [hex file] [serial device]
+python3 flashtnc.py [hex file] [serial device]
 ````
 During firmware update, the LEDs on the TNC will all light up and some will flash extremely quickly (it will just look like dimming). You'll see a progressive line count as the hex file is transferred. Recent firmware has around 9500 lines. It will take about 2 minutes or less to update the firmware once the script is started. The TNC will reboot when the update is complete.
 ## Windows 10 PowerShell Example
 ````
-PS C:\flashtnc-master> python flashtnc.py N9600A-v2-5-1.hex com18
+PS C:\flashtnc-master> python3 flashtnc.py N9600A-v2-5-1.hex com18
 Opened port com18
 Opened file N9600A-v2-5-1.hex
 Starting TNC reflash mode. Don't interrupt this process, the dsPIC will brick.
