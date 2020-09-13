@@ -68,4 +68,27 @@ Line count:  9415
 Firmware update successful.
 PS C:\flashtnc-master>
 ````
+## Debian Linux Example
+````
+nino@islay:~/flashtnc$ python3 flashtnc.py N9600A-v2-5-1.hex /dev/ttyACM0
+Opened port /dev/ttyACM0
+Opened file N9600A-v2-5-1.hex
+Starting TNC reflash mode. Don't interrupt this process, the dsPIC will brick.
+TNC successfully entered bootloader mode.
+TNC bootlader version:  a
+TNC ready for hex file, starting transfer. This will take a few minutes.
+Start time:  20:42:39
+Lines written:  1000
+Lines written:  2000
+Lines written:  3000
+Lines written:  4000
+Lines written:  5000
+Lines written:  6000
+Lines written:  7000
+Lines written:  8000
+Lines written:  9000
+End time:  20:44:32
+Line count:  9415
+Firmware update successful.
+````
 ## Need Help? Head over to the NinoTNC forum on https://groups.io
