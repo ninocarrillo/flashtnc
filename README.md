@@ -50,3 +50,4 @@ Line count:  9449
 Firmware update successful.
 PS C:\flashtnc>
 ````
+## Need Help? Head over to the NinoTNC forum on https://groups.io
