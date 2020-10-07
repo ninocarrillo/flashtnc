@@ -6,7 +6,7 @@ Firmware updater for N9600A TNCs. This Python3 script uses the bootloader reside
 ## Installing Python3 and pyserial in Windows
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
 2. During the Python3 install process, make sure "add Python to the PATH" is selected.
-3. Install the pyserial module using pip, which is included with Python3. Do this from a command line. Open PowerShell (right click Windows Menu icon, or search for PowerShell).
+3. Install the pyserial module using pip, which is included with Python3. Do this from a command line. I use PowerShell (right click Windows Menu icon, or search for PowerShell), but the normal command line works too.
 ````
 pip3 install pyserial
 ````
