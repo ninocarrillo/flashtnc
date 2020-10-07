@@ -1,0 +1,71 @@
+// version history:
+// 1.40 : 09-Nov-19 : add support for N9600A1 LEDS
+// 1.41 : 24-Nov-19 : fix FTDI chip held in reset bug on N9600A1
+// 1.42 : 29-Nov-19 : add AFSK transmit, streamline receive buffer usage
+// 1.60 : 08-Dec-19 : add I2C KISS interface
+// 2.00 : 24-Dec-19 : first N9600A2 version. Add IL2P, AFSK receive. Put preamble bits in their own buffer. Remove CTS pin. Add pin state detect. Add TXDELAY analog sampling.
+// 2.01 : 05-Jan-20 : Added stand-alone AX.25 ID packet generator for IL2P modes.
+// 2.10 : 10-Jan-20 : Added energy DCD, improved AFSK receive with higher sampling rate
+// 2.11 : 14-Jan-20 : Improved DCD timing, deleted transmit inhibit logic
+// 2.12 : 23-Jan-20 : Equalized AFSK demodulator
+// 2.20 : 17-Feb-20 : Add bootloader, keep OC1 operating at half scale to reduce TX skew, add old-style DCD detection (CrossingsInSync)
+//                  : Added TX/RX inversion option to A2 boards, increased DCD break to 100ms, changed min TXDELAY
+// 2.22 : 21-Mar-20 : Fixed inverted transmit data bug on AFSK (inverted GFSK transmit filter table)
+// 2.30 : 21-Mar-20 : Added 2400 DPSK mode, 4800 GFSK mode, support for N9600A3, KISS commands GETALL, GETVER, SETSERNO.
+// 2.31 : 11-Apr-20 : Added PTT loopback test & test packet, boot packet.
+// 2.32 : 25-Apr-20 : Fixed AFSK IL2P Sync DCD hang bug.
+// 2.33 : 26-Apr-20 : Additional fix for AFSK IL2P Sync DCD hang. Also changed IL2P SYNCTOL to 0.
+// 2.34 : 26-Apr-20 : Fixed IL2P Supervisory frame bit translations (chasing spurious REJ). Changed IL2P SYNCTOL back to 1.
+// 2.35 : 27-Apr-20 : Removed ID packet SSID, fixed ID packet protocol bug.
+// 2.36 : 27-Apr-20 : Put DAPSK transmit waveform in lookup table.
+// 2.37 : 09-May-20 : Special version to map all 3 fast bit rates to A2 dip switch in IL2P mode.
+//                  : 00 - 1200 AFSK AX.25
+//                  : 01 - 2400 DAPSK IL2P
+//                  : 10 - 4800 GFSK IL2P
+//                  : 11 - 9600 GFSK IL2P
+// 2.38 : 10-May-20 : Merge 2.36 and 2.37
+// 2.39 : 22-May-20 : Add WDT reset criteria for "aggressively safe" remote site. Fixed transmit hang bug (timer logic).
+// 2.40 : 23-May-20 : Modifying timer management. Addressing additional transmit cycle bug that causes short transmits (about 5 ms) every 20,000 packets.)
+//                  : Transitioned most TMR3 interrupts to main loop cycle.
+// 2.41 : 31-May-20 : Re-mapped A2 functions for non-TARPN users:
+//                  : 00 - 9600 GFSK AX.25
+//                  : 01 - 9600 GFSK IL2P
+//                  : 10 - 1200 AFSK AX.25
+//                  : 11 - 2400 DAPSK IL2P
+//                  : Adjusted preamble times for 2400 and 4800 baud modes
+// 2.42 : 28-Jun-20 : Added N9600A4 support. Inverted DAC output for N9600A4.
+//                  : Added IL2P receive inversion detection.
+//                  : Added info dump to TEST_TX usb packet.
+// 2.44 : 5-Jul-20  : Added switch position to data dump.
+// 2.45 : 5-Jul-20  : Moved modulation mode selection to transmit buffer to allow flexible transmit modulation.
+//                  : Streamlined buffer memory.
+// 2.46 : 6-Jul-20  : Added mode ID beacon to all modes except AX.25 1200. Sent in AX.25 1200
+//                  : Provided tuning tone selection based on mode switch settings. This allows the
+//                  : user to chose the target deviation for the bessel null tuning procedure.
+//                  : Notes:
+//                  : - Deviation is set with the TX_DEV pot. Changing the operating mode switches
+//                  :   does not change deviation, but does change the tuning tone.
+//                  : - The "best" deviation will be based on many factors, such as the specific
+//                  :   radios used in the link.
+//                  : - 3kHz deviation should work for most setups. 
+//                  : - 2400 Baud mode does not REQUIRE 5kHz deviation (3kHz is fine).
+//                  : - The tones selected in 4800 and 9600 mode provide Minimum Shift Keying,
+//                  :   but more deviation may work well too.
+//                  : 1200 Baud - 1248 Hz   (3kHz Dev)
+//                  : 2400 Baud - 2079 Hz   (5kHz Dev)
+//                  : 4800 Baud - 500 Hz    (1.2kHz Dev)
+//                  : 9600 Baud - 999 Hz    (2.4kHz Dev)
+// 2.50 : 25-Jul-30 : Added IL2P MaxFEC mode (Type 10 and 11 headers identify 32 RS roots)
+// 2.51 : 12-Aug-20 : Fixed TxPktCnt failure to increment.
+//                  : Changed AX.25 ID packet timer logic in IL2P mode.
+//                  : Improved AFSK dual-decode duplicate packet logic.
+// 2.70 : 05-Sep-20 : Enabled internal pull-downs on switch inputs (RN2 delete).
+//                  : Integrated assembly language fast digital filtering.
+//                  : Improved AFSK receive performance. Increased 1200 AFSK
+//                  : receive sample rate to 57600.
+// 2.71 : 26-Sep-20 : Further AFSK receive improvement.
+//                  : Added external INHIBIT input to RB4/Pin 11.
+//                  : Added support for N9600A4r1.
+// 2.73 : 03-Oct-20 : Increased UART 1 receive queue to 2.1kB to support MAXFRAME 7.
+//                  : Added RXA Clip indication to CRCBADLED (lights when receive signal at max ADC count).
+// 2.74 : 06-Oct-20 : Removed callsign validation from AX.25 receive to support tncattach.
