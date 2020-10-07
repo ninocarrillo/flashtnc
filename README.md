@@ -32,7 +32,7 @@ git clone https://github.com/ninocarrillo/flashtnc
 ````
 ## Determine Serial Port Device Identifier
 * The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
-* In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT).  
+* In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT). The serial port device identifier might change if you swap out NinoTNCs, reboot the computer, or use a different serial number. Look for a new identifier if a previous working identifier fails to update.
 * In Linux, this will be _/dev/ttyACMN_ or _/dev/ttyUSBN_. N9600A2 TNCs will end in "USBN", while N9600A3 and later TNCs will end in "ACMN". You can find the last USB serial device enumerated in the system by using the following command:  
 ````
 sudo dmesg | grep tty
@@ -44,6 +44,10 @@ sudo dmesg | grep tty
 python3 flashtnc.py [hex file] [serial device]
 ````
 During firmware update, the LEDs on the TNC will all light up and some will flash extremely quickly (it will just look like dimming). You'll see a progressive line count as the hex file is transferred. Recent firmware has around 9500 lines. It will take about 2 minutes or less to update the firmware once the script is started. The TNC will reboot when the update is complete.
+* The DIP switches can be in any position during this procedure.
+* The DIP switch funciton mapping may be different after firmware update, check release notes for the firmware version.
+* The update may change TX DELAY control sensitivity. Check this if the firmware update causes old links to stop working.
+* The update may also change the functionality of LEDs.
 ## Windows 10 PowerShell Example
 ````
 PS C:\flashtnc-master> python3 flashtnc.py N9600A-v2-5-1.hex com18
