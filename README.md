@@ -33,7 +33,7 @@ git clone https://github.com/ninocarrillo/flashtnc
 ````
 ## Determine Serial Port Device Identifier
 * The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
-* In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT). The serial port device identifier might change if you swap out NinoTNCs, reboot the computer, or use a different serial number. Look for a new identifier if a previous working identifier fails to update.
+* In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT). The serial port device identifier might change if you swap out NinoTNCs, reboot the computer, or use a different USB port. Look for a new identifier if a previous working identifier fails to update.
 * In Linux, this will be _/dev/ttyACMN_ or _/dev/ttyUSBN_. N9600A2 TNCs will end in "USBN", while N9600A3 and later TNCs will end in "ACMN". You can find the last USB serial device enumerated in the system by using the following command:  
 ````
 sudo dmesg | grep tty
