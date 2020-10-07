@@ -5,7 +5,8 @@ Firmware updater for N9600A TNCs. This Python3 script uses the bootloader reside
 * pyserial module
 ## Installing Python3 and pyserial in Windows
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
-2. Install the pyserial module using pip, which is included with Python3. Do this from a command line. Open PowerShell (right click Windows Menu icon, or search for PowerShell).
+2. During the Python3 install process, make sure "add Python to the PATH" is selected.
+3. Install the pyserial module using pip, which is included with Python3. Do this from a command line. Open PowerShell (right click Windows Menu icon, or search for PowerShell).
 ````
 pip3 install pyserial
 ````
@@ -39,16 +40,23 @@ sudo dmesg | grep tty
 ````
 ## Critical Precautions to Prevent Bricking your dsPIC!
 **Make sure there are no programs running that will access the TNC! Stop all programs that interact with the TNC. If any program accesses the same serial port during firmware update, the dsPIC will certainly brick. Recovery will require an In-Circuit Serial Programmer or replacement of the dsPIC.**
-## flashtnc Command Line Usage
+## flashtnc Command Line Usage on Windows
+````
+py -3 flashtnc.py [hex file] [serial device]
+````
+## flastnc Command Line Usage on Linux
 ````
 python3 flashtnc.py [hex file] [serial device]
 ````
+## If Python Doesn't Start
+If your attempt to launch python fails silently (just returns to the command prompt without an error), then try using an alternative command to start Python: "py", "python", and "python3" may work dependong on OS. Use "python --version" to confirm you are invoking Python3.
+## What to Expect
 During firmware update, the LEDs on the TNC will all light up and some will flash extremely quickly (it will just look like dimming). You'll see a progressive line count as the hex file is transferred. Recent firmware has around 9500 lines. It will take about 2 minutes or less to update the firmware once the script is started. The TNC will reboot when the update is complete.
 * The DIP switches can be in any position during this procedure.
 * The DIP switch funciton mapping may be different after firmware update, check release notes for the firmware version.
 * The update may change TX DELAY control sensitivity. Check this if the firmware update causes old links to stop working.
 * The update may also change the functionality of LEDs.
-## Windows 10 PowerShell Example
+## Windows 10 PowerShell or Command Prompt Example
 ````
 PS C:\flashtnc-master> python3 flashtnc.py N9600A-v2-5-1.hex com18
 Opened port com18
