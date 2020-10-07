@@ -49,7 +49,7 @@ py -3 flashtnc.py [hex file] [serial device]
 python3 flashtnc.py [hex file] [serial device]
 ````
 ## If Python Doesn't Start
-If your attempt to launch python fails silently (just returns to the command prompt without an error), then try using an alternative command to start Python: "py", "python", and "python3" may work dependong on OS. Use "python --version" to confirm you are invoking Python3.
+If your attempt to launch python fails silently (just returns to the command prompt without an error), then try using an alternative command to start Python: "py", "python", and "python3" may work depending on OS. Use "python --version" to confirm you are invoking Python3.
 ## What to Expect
 During firmware update, the LEDs on the TNC will all light up and some will flash extremely quickly (it will just look like dimming). You'll see a progressive line count as the hex file is transferred. Recent firmware has around 9500 lines. It will take about 2 minutes or less to update the firmware once the script is started. The TNC will reboot when the update is complete.
 * The DIP switches can be in any position during this procedure.
