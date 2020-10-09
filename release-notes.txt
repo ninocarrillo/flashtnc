@@ -63,9 +63,16 @@
 //                  : Integrated assembly language fast digital filtering.
 //                  : Improved AFSK receive performance. Increased 1200 AFSK
 //                  : receive sample rate to 57600.
-// 2.71 : 26-Sep-20 : Further AFSK receive improvement.
+// 2.71 : 26-Sep-20 : Set TARPN_A2_DIP_MAPPING = 1
+//                  : Switch Mapping for A2 is as follows
+//                  : 00 - 1200 AFSK AX.25
+//                  : 01 - 2400 DAPSK IL2P
+//                  : 10 - 4800 GFSK IL2P
+//                  : 11 - 9600 GFSK IL2P
+//                  : Further AFSK receive improvement.
 //                  : Added external INHIBIT input to RB4/Pin 11.
 //                  : Added support for N9600A4r1.
 // 2.73 : 03-Oct-20 : Increased UART 1 receive queue to 2.1kB to support MAXFRAME 7.
 //                  : Added RXA Clip indication to CRCBADLED (lights when receive signal at max ADC count).
 // 2.74 : 06-Oct-20 : Removed callsign validation from AX.25 receive to support tncattach.
+// 2.75 : 09-Oct-20 : Set TARPN_A2_DIP_MAPPING = 0 (see v2.41 above)
