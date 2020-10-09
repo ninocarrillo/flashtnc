@@ -8,19 +8,19 @@ Firmware updater for N9600A TNCs. This Python3 script uses the bootloader reside
 2. During the Python3 install process, make sure "add Python to the PATH" is selected.
 3. Install the pyserial module using pip, which is included with Python3. Do this from a command line. I use PowerShell (right click Windows Menu icon, or search for PowerShell), but the normal command line works too.
 ````
-pip3 install pyserial
+PS C:\Users\ninoc> pip3 install pyserial
 ````
 ## Installing Python3 and pyserial in 32-Bit Windows
 1. Get the "Windows x86 executable installer", version 3.90 is available here: https://www.python.org/ftp/python/3.9.0/python-3.9.0.exe
 2. During the Python3 install process, make sure "add Python to the PATH" is selected.
 3. Install pip (not included in the 32-bit Windows version of Python). You can do this from a command line. I use Powershell (right click Windows Menu icon, or search for PowerShell), but the normal command line works too.
 ````
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python get-pip.py
+PS C:\Users\ninoc> curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+PS C:\Users\ninoc> python get-pip.py
 ````
 4. Install the pyserial module using pip from the command line.
 ````
-pip3 install pyserial
+PS C:\Users\ninoc> pip3 install pyserial
 ````
 * If you get an error that includes "The term pip3 is not recognized..." then you may need to add an additional PATH environment variable. To do this, search for "env" in the Windows search bar. Select "Edit the System environment variables". Click on the "Environment Variables..." button at the bottom right of the "Advanced" tab. The "Edit environment variable" window will appear. Click the "New" button, and add this path: %USERPROFILE%\AppData\Local\Programs\Python\Python39\Scripts\ (or use the appropriate Python version you installed).
 ## Installing Python3 and pyserial in Debian Linux
