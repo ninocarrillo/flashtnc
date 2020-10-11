@@ -1,19 +1,42 @@
 # flashtnc
-Firmware updater for N9600A TNCs. This Python3 script uses the bootloader resident in N9600A firmwares from v2.20 and later to reflash the dsPIC device without an external programmer.
+Firmware updater for N9600A NinoTNCs. This Python3 script uses the bootloader resident in N9600A firmwares from v2.20 and later to reflash the dsPIC device without an external programmer. The instructions below include separate sections for 64-Bit Windows, 32-Bit Windows, and Debian Linux. Make sure you read the __Notes For All Platforms__ section at the bottom of this document.
 ## Software Requirements
 * Python3 
 * pyserial module
-## Installing Python3 and pyserial in 64-Bit Windows
+## Generic Recipe
+1. Install Python3 on your system
+2. Install the pyserial software module
+3. Download the flashtnc repository
+4. Connect your NinoTNC to your system, determine its serial port identifier
+5. Run the flashtnc program to update firmware on your TNC
+# Instructions for 64-Bit Windows
+## Installing Python3 and pyserial (64-Bit Windows)
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
 2. During the Python3 install process, make sure "add Python to the PATH" is selected.
 3. Install the pyserial module using pip, which is included with Python3. Do this from a command line. I use PowerShell (right click Windows Menu icon, or search for PowerShell), but the normal command line works too.
 ````
 PS C:\Users\ninoc> pip3 install pyserial
 ````
-## Installing Python3 and pyserial in 32-Bit Windows
+## Download flashtnc Repository (64-Bit Windows)
+* Click the green button above that says **Code**. Select "Download Zip".
+* Extract the zip file into a directory you can navigate to easily from a command line.
+* The repository includes latest firmware hex file.
+## Determine Serial Port Device Identifier (64-Bit Windows)
+* The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
+* In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT). The serial port device identifier might change if you swap out NinoTNCs, reboot the computer, or use a different USB port. Look for a new identifier if a previous working identifier fails to update.
+## Critical Precautions to Prevent Bricking your dsPIC!
+**Make sure there are no programs running that will access the TNC! Stop all programs that interact with the TNC. If any program accesses the same serial port during firmware update, the dsPIC will certainly brick. Recovery will require an In-Circuit Serial Programmer or replacement of the dsPIC.**
+## flashtnc Command Line Usage (64-bit Windows)
+* Open your favorite command line (cmd.exe or Powershell will work)
+* Navigate to the directory where you extracted the flashtnc repository
+````
+PS C:\flashtnc-master> py -3 flashtnc.py [hex file] [serial device]
+````
+# Instructions for 32-Bit Windows
+## Installing Python3 and pyserial (32-Bit Windows)
 1. Get the "Windows x86 executable installer", version 3.90 is available here: https://www.python.org/ftp/python/3.9.0/python-3.9.0.exe
 2. During the Python3 install process, make sure "add Python to the PATH" is selected.
-3. Install pip (not included in the 32-bit Windows version of Python). You can do this from a command line. I use Powershell (right click Windows Menu icon, or search for PowerShell), but the normal command line works too.
+3. Install pip (not included in the 32-bit Windows version of Python). You can do this from a command line. I use Powershell (right click Windows Menu icon, or search for PowerShell), but the normal cmd.exe command line works too.
 ````
 PS C:\Users\ninoc> curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 PS C:\Users\ninoc> python get-pip.py
@@ -23,7 +46,23 @@ PS C:\Users\ninoc> python get-pip.py
 PS C:\Users\ninoc> pip3 install pyserial
 ````
 * If you get an error that includes "The term pip3 is not recognized..." then you may need to add an additional PATH environment variable. To do this, search for "env" in the Windows search bar. Select "Edit the System environment variables". Click on the "Environment Variables..." button at the bottom right of the "Advanced" tab. The "Edit environment variable" window will appear. Click the "New" button, and add this path: %USERPROFILE%\AppData\Local\Programs\Python\Python39\Scripts\ (or use the appropriate Python version you installed).
-## Installing Python3 and pyserial in Debian Linux
+## Download flashtnc Repository (32-Bit Windows)
+* Click the green button above that says **Code**. Select "Download Zip".
+* Extract the zip file into a directory you can navigate to easily from a command line.
+* The repository includes latest firmware hex file.
+## Determine Serial Port Device Identifier (32-Bit Windows)
+* The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
+* In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT). The serial port device identifier might change if you swap out NinoTNCs, reboot the computer, or use a different USB port. Look for a new identifier if a previous working identifier fails to update.
+## Critical Precautions to Prevent Bricking your dsPIC!
+**Make sure there are no programs running that will access the TNC! Stop all programs that interact with the TNC. If any program accesses the same serial port during firmware update, the dsPIC will certainly brick. Recovery will require an In-Circuit Serial Programmer or replacement of the dsPIC.**
+## flashtnc Command Line Usage (32-bit Windows)
+* Open your favorite command line (cmd.exe or Powershell will work)
+* Navigate to the directory where you extracted the flashtnc repository
+````
+PS C:\flashtnc-master> py -3 flashtnc.py [hex file] [serial device]
+````
+# Instructions for Debian Linux
+## Installing Python3 and pyserial (Debian Linux)
 1. Install Python3 and pip through the package manager.  
 ````
 $ sudo apt-get update
@@ -33,34 +72,26 @@ $ sudo apt-get install python3 python3-pip
 ````
 $ pip3 install pyserial
 ````
-## Download flashtnc Repository in Windows or Graphical Linux
-* Click the green button above that says **Code**. Select "Download Zip".
-* Extract the zip file into a directory you can navigate to easily from a command line.
-* The repository includes latest firmware hex file.
-## Alternatively, Clone Repository Using git (Linux command line)
+## Clone Repository Using git (Debian Linux)
 First two lines not required if you already have git installed.
 ````
 $ sudo apt-get update
 $ sudo apt-get install git
 $ git clone https://github.com/ninocarrillo/flashtnc
 ````
-## Determine Serial Port Device Identifier
+## Determine Serial Port Device Identifier (Debian Linux)
 * The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
-* In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT). The serial port device identifier might change if you swap out NinoTNCs, reboot the computer, or use a different USB port. Look for a new identifier if a previous working identifier fails to update.
 * In Linux, this will be _/dev/ttyACMN_ or _/dev/ttyUSBN_. N9600A2 TNCs will end in "USBN", while N9600A3 and later TNCs will end in "ACMN". You can find the last USB serial device enumerated in the system by using the following command:  
 ````
 $ sudo dmesg | grep tty
 ````
 ## Critical Precautions to Prevent Bricking your dsPIC!
 **Make sure there are no programs running that will access the TNC! Stop all programs that interact with the TNC. If any program accesses the same serial port during firmware update, the dsPIC will certainly brick. Recovery will require an In-Circuit Serial Programmer or replacement of the dsPIC.**
-## flashtnc Command Line Usage on Windows
-````
-PS C:\flashtnc-master> py -3 flashtnc.py [hex file] [serial device]
-````
-## flastnc Command Line Usage on Linux
+## flastnc Command Line Usage (Debian Linux)
 ````
 $ python3 flashtnc.py [hex file] [serial device]
 ````
+# Notes for All Platforms
 ## If Python Doesn't Start
 If your attempt to launch python fails silently (just returns to the command prompt without an error), then try using an alternative command to start Python: "py", "python", and "python3" may work depending on OS. Use "python --version" to confirm you are invoking Python3.
 ## What to Expect
