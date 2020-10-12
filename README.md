@@ -9,6 +9,10 @@ Firmware updater for N9600A NinoTNCs. This Python3 script uses the bootloader re
 3. Download the flashtnc repository
 4. Connect your NinoTNC to your system, determine its serial port identifier
 5. Run the flashtnc program to update firmware on your TNC
+## Firmware Versions
+* The change log for firmware versions is contained in release-notes.txt
+* I recommend using the most recent firmware (highest version number, currently 2.75)
+* Recent firmware allows deletion of RN2 by enabling internal pulldowns on some input pins
 # Instructions for 64-Bit Windows
 ## Installing Python3 and pyserial (64-Bit Windows)
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
