@@ -76,3 +76,4 @@
 //                  : Added RXA Clip indication to CRCBADLED (lights when receive signal at max ADC count).
 // 2.74 : 06-Oct-20 : Removed callsign validation from AX.25 receive to support tncattach.
 // 2.75 : 09-Oct-20 : Set TARPN_A2_DIP_MAPPING = 0 (see v2.41 above)
+// 2.76 : 12-Oct-20 : Added performance data dump for TARPN nodes.
