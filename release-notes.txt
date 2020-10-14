@@ -77,3 +77,4 @@
 // 2.74 : 06-Oct-20 : Removed callsign validation from AX.25 receive to support tncattach.
 // 2.75 : 09-Oct-20 : Set TARPN_A2_DIP_MAPPING = 0 (see v2.41 above)
 // 2.76 : 12-Oct-20 : Added performance data dump for TARPN nodes.
+// 2.77 : 13-Oct-20 : Fixed 2400 baud receive (unintentionally broken since 2.70)
