@@ -78,3 +78,4 @@
 // 2.75 : 09-Oct-20 : Set TARPN_A2_DIP_MAPPING = 0 (see v2.41 above)
 // 2.76 : 12-Oct-20 : Added performance data dump for TARPN nodes.
 // 2.77 : 13-Oct-20 : Fixed 2400 baud receive (unintentionally broken since 2.70)
+// 2.78 : 20-Oct-20 : Adjusted KISS buffer management.
