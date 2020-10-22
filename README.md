@@ -11,7 +11,7 @@ Firmware updater for N9600A NinoTNCs. This Python3 script uses the bootloader re
 5. Run the flashtnc program to update firmware on your TNC
 ## Firmware Versions
 * The change log for firmware versions is contained in release-notes.txt.
-* I recommend using the most recent firmware (highest version number, currently 2.78).
+* I recommend using the most recent firmware (highest version number, currently 2.80).
 * Firmweare 2.70 and later allows deletion of RN2 by enabling internal pulldowns on some input pins. If your TNC doesn't have RN2, don't downgrade your firmware below 2.7x! The TNC will freeze if you do, and you'll need an ICSP reflash or replacement dsPIC with compatible firmware.
 # Instructions for 64-Bit Windows
 ## Installing Python3 and pyserial (64-Bit Windows)
