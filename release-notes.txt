@@ -79,3 +79,7 @@
 // 2.76 : 12-Oct-20 : Added performance data dump for TARPN nodes.
 // 2.77 : 13-Oct-20 : Fixed 2400 baud receive (unintentionally broken since 2.70)
 // 2.78 : 20-Oct-20 : Adjusted KISS buffer management.
+// 2.79 : 20-Oct-20 : Changed UART receive queue behavior (non-destructive overflow).
+//                  : Started tracking total PTT time, total DCD time.
+// 2.80 : 21-Oct-20 : Track IL2P corrected packets with >0 errors.
+// 2.81 : 25-Oct-20 : Fixed info dump DIP switch mapping to match board.
