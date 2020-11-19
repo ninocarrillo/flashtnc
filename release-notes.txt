@@ -83,3 +83,4 @@
 //                  : Started tracking total PTT time, total DCD time.
 // 2.80 : 21-Oct-20 : Track IL2P corrected packets with >0 errors.
 // 2.81 : 25-Oct-20 : Fixed info dump DIP switch mapping to match board.
+// 2.83 : 19-Nov-20 : Changed 9600 AX.25 preamble words from 0x0000 to 0x7E7E
