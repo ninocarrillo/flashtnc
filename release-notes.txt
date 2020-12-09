@@ -84,3 +84,11 @@
 // 2.80 : 21-Oct-20 : Track IL2P corrected packets with >0 errors.
 // 2.81 : 25-Oct-20 : Fixed info dump DIP switch mapping to match board.
 // 2.83 : 19-Nov-20 : Changed 9600 AX.25 preamble words from 0x0000 to 0x7E7E
+// 2.84 : 21-Nov-20 : Added OPB 1200 AFSK low-pass emphasis filter option
+// 2.85 : 21-Nov-20 : Increased DAPSK receive sample rate to 57600.
+//                  : Enabled clip detect for DAPSK receive.
+//                  : Improved DAPSK receive output LPF.
+// 2.86 : 29-Nov-20 : Added LastGoodPacket tracking to filter CRC BAD LED trigger.
+//                  : Removed DEVID logic (unused).
+//                  : Forked to dsPIC 33EP512GP502 "Fat" version.
+// 2.89 : 08-Dec-20 : Adjusted AX.25 receive packet min length to 10 bytes.
