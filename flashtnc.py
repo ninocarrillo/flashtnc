@@ -1,5 +1,5 @@
-# N9600A Firmware Updater version a3
-# Nino Carrillo 12 Sep 2020
+# N9600A Firmware Updater version b1
+# Nino Carrillo 30 Dec 2020
 # Exit codes:
 # 0 firmware was updated
 # 1 firmware not updated - TNC is current
@@ -10,6 +10,9 @@
 # 6 firmware not updated - bootloader not detected
 # 7 firmware not updated - incompatible bootloader version
 # 8 firmware not updated - firmware update failed
+# 9 firmware not updated - unknown hex file type
+# 10 firmware not updated - chip version is dsPIC33EP512GP but hex file is for dsPIC33EP256GP
+# 11 firmware not updated - chip version is dsPIC33EP256GP but hex file is for dsPIC33EP512GP
 
 import serial
 import sys
@@ -43,42 +46,113 @@ except:
 	port.close()
 	sys.exit(4)
 
-print('Opened file', sys.argv[1])
-input_data = port.read(1)
-while input_data != b'':
-	port.reset_input_buffer() # Discard all contents of input buffer
-	input_data = port.read(1)
+# Determine which version of dsPIC this hex file was compiled for by searching for the first line in the bootloader.
+print('Scanning hex file to determine target chip.')
+hex_file_target = "unknown"
+line = file.readline()
+while line != "" and hex_file_target == "unknown":
+	if ':108800007a00fa0000002200000f7800c3e8a900f7' in line:
+		hex_file_target = "dsPIC33EP512GP"
+		print("Hex file target:", hex_file_target)
+	if ':10427c007a00fa0000002200000f7800c3e8a900c1' in line:
+		hex_file_target = "dsPIC33EP256GP"
+		print("Hex file target:", hex_file_target)
+	if ':10427c007a00fa00403f9800ce389000010f780089' in line:
+		hex_file_target = "dsPIC33EP256GP"
+		print("Hex file target:", hex_file_target)
+	line = file.readline()
 
-print("Starting TNC reflash mode. Don't interrupt this process, the dsPIC will brick.")
-port.write(b'\xc0\x0d\x37\xc0') # Initiate bootloader mode on TNC
+if hex_file_target == "unknown":
+	print("Hex file target:", hex_file_target)
+	GracefulExit(port, file, 9)
+
+# Reset file read pointer to beginning
+file.seek(0)
+
+print('Opened file', sys.argv[1])
+
+port.reset_input_buffer() # Discard all contents of input buffer
+
+
+# Check for stranded bootloader
+TNC_state = "KISS"
+success = 0
+port.write(b'R')
 input_data = port.read(2) # Wait for 2 'K' characters
 try:
 	input_data = input_data.decode("ascii")
 except:
-	print('Invalid response entering bootloader mode.')
-	print(input_data)
-	GracefulExit(port, file, 6)
-	
-if input_data != "KK":
+	print("Unable to decode response.")
+finally:
+	if input_data == "KK":
+		print("Found stranded bootloader.")
+		TNC_state = "Stranded"
+		success = 1
+
+print("Starting TNC reflash mode. Don't interrupt this process, the dsPIC may brick.")
+
+if TNC_state == "KISS":
+	port.write(b'\xc0\x0d\x37\xc0') # Initiate bootloader mode on TNC
+	input_data = port.read(2) # Wait for 2 'K' characters
+	try:
+		input_data = input_data.decode("ascii")
+	except:
+		print('Invalid response entering bootloader mode.')
+		print(input_data)
+		GracefulExit(port, file, 6)
+	try_count = 0
+	success = 0
+	while try_count < 4:
+		try_count = try_count + 1
+		if input_data != "KK":
+			print("Retrying")
+			port.close()
+			port.open()
+			input_data = port.read(1)
+			while input_data != b'':
+				port.reset_input_buffer() # Discard all contents of input buffer
+				input_data = port.read(1)
+		else:
+			success = 1
+			try_count = 4
+	else:
+		success = 1;
+
+if success == 1:
+	print("TNC successfully entered bootloader mode.")
+else:
 	print('TNC bootloader mode not detected. Terminating.')
+	print(input_data)
 	port.write(b'R') # Try to return TNC to normal KISS mode
 	time.sleep(1)
-	GracefulExit(port, file, 6)
-
-print("TNC successfully entered bootloader mode.")
+	GracefulExit(port, file, 6)	
 
 port.write(b'V')# send command to read bootloader version
 input_data = port.read(1)
-low_version = 97
-high_version = 97
-version = input_data[0]
-if version <= high_version and version >= low_version:
-	print('TNC bootlader version: ', input_data.decode("ascii"))
+version = input_data.decode('ascii')
+if version == 'a' or version == 'b' or version == 'B':
+	print('TNC bootlader version: ', version)
 else:
 	print('Unsupported TNC bootloader version, terminating.')
 	port.write(b'R') # attempt to reset TNC
+	print(version)
 	time.sleep(1)
 	GracefulExit(port, file, 7)
+	
+# Check hex file version matches bootloader version
+if version == 'a' or version == 'b': # these bootloaders are installed in dsPIC33EP256GP
+	if hex_file_target != "dsPIC33EP256GP":
+		print("Chip version is dsPIC33EP256GP but hex file is for dsPIC33EP512GP, terminating.")
+		port.write(b'R') # Try to return TNC to normal KISS mode
+		time.sleep(1)
+		GracefulExit(port, file, 10)
+
+if version == 'B': # this bootloader is installed in dsPIC33EP512GP
+	if hex_file_target != "dsPIC33EP512GP":
+		print("Chip version is dsPIC33EP512GP but hex file is for dsPIC33EP256GP, terminating.")
+		port.write(b'R') # Try to return TNC to normal KISS mode
+		time.sleep(1)
+		GracefulExit(port, file, 11)
 
 print('TNC ready for hex file, starting transfer. This will take a few minutes.')
 line = file.readline()
