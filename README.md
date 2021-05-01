@@ -30,7 +30,7 @@ PS C:\Users\ninoc> pip3 install pyserial
 * The N9600A TNCs use USB to serial bridge devices that are enumerated by the operating system. It's easiest to determine the serial port identifier if the TNC is the only USB serial device attached to the system.  
 * In Windows, this will be _comN_ where N is a number. May be double-digits. You can find this in the Control Panel->System->Devices->Ports (COM & LPT). The serial port device identifier might change if you swap out NinoTNCs, reboot the computer, or use a different USB port. Look for a new identifier if a previous working identifier fails to update.
 ## Critical Precautions to Prevent Bricking your dsPIC!
-**Make sure there are no programs running that will access the TNC! Stop all programs that interact with the TNC. If any program accesses the same serial port during firmware update, the dsPIC will certainly brick. Recovery will require an In-Circuit Serial Programmer or replacement of the dsPIC.**
+**Make sure there are no programs running that will access the TNC! Stop all programs that interact with the TNC. If any program accesses the same serial port during firmware update, the update will fail. Recovery may be possible with recent bootloader versions. Old versions will require an In-Circuit Serial Programmer or replacement of the dsPIC.**
 ## flashtnc Command Line Usage (64-bit Windows)
 * Open your favorite command line (cmd.exe or Powershell will work)
 * Navigate to the directory where you extracted the flashtnc repository
