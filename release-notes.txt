@@ -90,5 +90,35 @@
 //                  : Improved DAPSK receive output LPF.
 // 2.86 : 29-Nov-20 : Added LastGoodPacket tracking to filter CRC BAD LED trigger.
 //                  : Removed DEVID logic (unused).
-//                  : Forked to dsPIC 33EP512GP502 "Fat" version.
 // 2.89 : 08-Dec-20 : Adjusted AX.25 receive packet min length to 10 bytes.
+// 2.90 : 21-Dec-20 : Forked to dsPIC33EP512GP502
+//                  : Increased AX25 receive buffer to 1068 bytes
+// 3/4.00: 04-Jan-20 : Versioning convention change.
+//                   : Major version 4 indicates dsPIC33EP512GP.
+//                   : Major version 3 indicates dsPIC33EP256GP.
+//                   : Updated bootloader to 'b' for 3.00 and 'B' for 4.00. New
+//                   : bootloader is capable of restarting interrupted flash.
+//                   : Changed PENDING LED logic to illuminated when packets
+//                   : are waiting for transmit OR bytes are present in the
+//                   : KISS UART receive queue.
+//                   : ****************** MEMORY ALLOCATION ******************
+//                   :   FUNCTION                  3.00            4.00
+//                   : UART FROM HOST           2100 bytes      8192 bytes    Limits maximum window size (MAXFRAME) for connected links.
+//                   : TX DATA BUFFER           541  words      541  words    Limits maximum transmit packet size to 541*16 = 8,656 bits including all overhead.
+//                   : TX DATA BUFFER COUNT     3               3             Permits back-to-back transmits (a packet can be prepared for transmit while another is transmitted).
+//                   : TX DAC SAMPLE BUFFER     144  words      144  words    Transmit audio samples, passed to OC module via DMA. 86,400 Hz sample rate.
+//                   : TX DAC BUFFER COUNT      16              16            Permits 26.67mS of audio to be queued prior to transmit to prevent underruns.
+//                   : RX ADC SAMPLE BUFFER     96   words      96   words    Receive audio samples collected by ADC via DMA. 57,600 Hz sample rate.
+//                   : RX ADC BUFFER COUNT      16              16            Permits up to 26.67mS of demodulation processing delay prior to sample loss.
+//                   : RX DATA BUFFER           8    words      8    words    Data buffers where sliced bits demodulated from receive audio are collected.
+//                   : RX BUFFER COUNT          9               9             Allows additional data accumulation during packet decoding.
+//                   : AX25 RECEIVER            300  bytes      1068 bytes    Limits maximum AX.25 receive packet size, inclusive of header, payload, and CRC.
+//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols. 
+//                   : UART TO HOST             1100 bytes      1100 bytes    Limits maximum KISS frame size returned to host.
+//
+// 3/4.01: 23-Jan-21 : Modified serial number storage in flash program memory.
+//                   : Serial number can only be set if value in flash program memory is clear.
+//                   : Serial number read directly from flash program memory when requested by host.
+// 3/4.04: 17-Apr-21 : Improved AFSK receive performance.
+// 3.05:   19-Apr-21 : Fixed bootloader bug, added backwards compatibility to 'a' bootloader in dsPIC33EP256GP502.
+// 3/4.06: 20-Apr-21 : Added bootloader self-update capability, updated EP256 to 'c' bootloader.
