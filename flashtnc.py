@@ -1,5 +1,5 @@
-# N9600A Firmware Updater version b1
-# Nino Carrillo 30 Dec 2020
+# N9600A Firmware Updater version c
+# Nino Carrillo 1 May 2021
 # Exit codes:
 # 0 firmware was updated
 # 1 firmware not updated - TNC is current
@@ -58,6 +58,12 @@ while line != "" and hex_file_target == "unknown":
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
 	if ':10427c007a00fa00403f9800ce389000010f780089' in line:
+		hex_file_target = "dsPIC33EP256GP"
+		print("Hex file target:", hex_file_target)
+	if ':10427c007c00fa00503f980000002200000f7800ec'in line:
+		hex_file_target = "dsPIC33EP256GP"
+		print("Hex file target:", hex_file_target)
+	if ':102800007c00fa00503f980000002200000f780082' in line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
 	line = file.readline()
@@ -130,7 +136,7 @@ else:
 port.write(b'V')# send command to read bootloader version
 input_data = port.read(1)
 version = input_data.decode('ascii')
-if version == 'a' or version == 'b' or version == 'B':
+if version == 'a' or version == 'b' or version == 'B' or version == 'c':
 	print('TNC bootlader version: ', version)
 else:
 	print('Unsupported TNC bootloader version, terminating.')
@@ -240,4 +246,3 @@ else:
 	GracefulExit(port, file, 8)
 
 GracefulExit(port, file, 0)
-
