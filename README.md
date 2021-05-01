@@ -13,7 +13,7 @@ Firmware updater for N9600A NinoTNCs. This Python3 script uses the bootloader re
 * The change log for firmware versions is contained in release-notes.txt.
 * I recommend using the most recent firmware (highest version number, currently 3.06 for dsPIC33EP256, and 4.06 for dsPIC33EP512).
 * Firmweare 2.70 and later allows deletion of RN2 by enabling internal pulldowns on some input pins. If your TNC doesn't have RN2, don't downgrade your firmware below 2.7x! The TNC will freeze if you do, and you'll need an ICSP reflash or replacement dsPIC with compatible firmware.
-* Version 3.06 and 4.06 include a feature that self-updates the bootloader on the chip. The new bootloader is version 'c' for dsPIC33EP256 chips. The bootloader code does not change for dsPIC33EP512 chips, it's still 'B'. Don downgrade dsPIC33EP256 chips to versions earlier than 3.06, you will lose bootloading capability if you do. The chip will then require ICSP reflash with a programming device to update firmware and regain bootloader capability.
+* Version 3.06 and 4.06 include a feature that self-updates the bootloader on the chip. The new bootloader is version 'c' for dsPIC33EP256 chips. The bootloader code does not change for dsPIC33EP512 chips, it's still 'B'. Don't downgrade dsPIC33EP256 chips to versions earlier than 3.06, you will lose bootloading capability if you do. The chip will then require ICSP reflash with a programming device to update firmware and regain bootloader capability.
 # Instructions for 64-Bit Windows
 ## Installing Python3 and pyserial (64-Bit Windows)
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
