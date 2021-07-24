@@ -18,6 +18,10 @@ import serial
 import sys
 import time
 
+if sys.version_info < (3, 0): 
+	print("Python version should be 3.x, exiting")
+	sys.exit(2)
+
 def GracefulExit(port, file, code):
 	try:
 		port.close()
