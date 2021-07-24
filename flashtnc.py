@@ -1,5 +1,7 @@
-# N9600A Firmware Updater version c
-# Nino Carrillo 1 May 2021
+# N9600A Firmware Updater version d
+# Nino Carrillo 
+# David Arthur
+# 23 July 2021
 # Exit codes:
 # 0 firmware was updated
 # 1 firmware not updated - TNC is current
@@ -13,6 +15,7 @@
 # 9 firmware not updated - unknown hex file type
 # 10 firmware not updated - chip version is dsPIC33EP512GP but hex file is for dsPIC33EP256GP
 # 11 firmware not updated - chip version is dsPIC33EP256GP but hex file is for dsPIC33EP512GP
+# 12 firmware not updated - incompatible version of Python
 
 import serial
 import sys
@@ -20,7 +23,7 @@ import time
 
 if sys.version_info < (3, 0): 
 	print("Python version should be 3.x, exiting")
-	sys.exit(2)
+	sys.exit(12)
 
 def GracefulExit(port, file, code):
 	try:
