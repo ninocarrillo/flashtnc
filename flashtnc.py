@@ -73,7 +73,7 @@ while line != "" and hex_file_target == "unknown":
 	if ':102800007c00fa00503f980000002200000f780082' in line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
-	if ':10d47800889fbe000003eb000200e00017003400a4' in line:
+	if ':102800002f08b000889fbe008a9fbe008c9fbe002c' in line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
 	if ':108800002f08b000889fbe008a9fbe008c9fbe00cc' in line:
