@@ -39,7 +39,7 @@ if len(sys.argv) < 3:
 	sys.exit(2)
 
 try:
-	port = serial.Serial(sys.argv[2], baudrate=57600, bytesize=8, parity='N', stopbits=1, xonxoff=0, rtscts=0, timeout=3)
+	port = serial.Serial(sys.argv[2], baudrate=57600, bytesize=8, parity='N', stopbits=1, xonxoff=0, rtscts=0, timeout=5)
 except:
 	print('Unable to open serial port.')
 	sys.exit(3)
@@ -91,6 +91,15 @@ file.seek(0)
 print('Opened file', sys.argv[1])
 
 port.reset_input_buffer() # Discard all contents of input buffer
+# Now read characters for a while until we're sure all the junk is out
+buffer_status = "not empty"
+print("Flushing serial buffer:")
+while buffer_status == "not empty":
+	input_data = port.read(1)
+	print(input_data)
+	if input_data == b'':
+		buffer_status = "empty"
+
 
 
 # Check for stranded bootloader
@@ -112,6 +121,19 @@ print("Starting TNC reflash mode. Don't interrupt this process, the dsPIC may br
 
 if TNC_state == "KISS":
 	port.write(b'\xc0\x0d\x37\xc0') # Initiate bootloader mode on TNC
+
+	buffer_status = "not empty"
+	print("Flushing serial buffer again:")
+	while buffer_status == "not empty":
+		input_data = port.read(1)
+		print("type is: ", type(input_data))
+		print(input_data)
+		if input_data == '':
+			buffer_status = "empty"
+		if input_data == b'K':
+			buffer_status = "ready"
+	
+
 	input_data = port.read(2) # Wait for 2 'K' characters
 	try:
 		input_data = input_data.decode("ascii")
