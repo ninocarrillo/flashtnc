@@ -1,7 +1,7 @@
 # N9600A Firmware Updater version e
 # Nino Carrillo 
 # David Arthur
-# 30 Jan 2022
+# 19 Feb 2022
 # Exit codes:
 # 0 firmware was updated
 # 1 firmware not updated - TNC is current
@@ -16,7 +16,7 @@
 # 10 firmware not updated - chip version is dsPIC33EP512GP but hex file is for dsPIC33EP256GP
 # 11 firmware not updated - chip version is dsPIC33EP256GP but hex file is for dsPIC33EP512GP
 # 12 firmware not updated - incompatible version of Python
-
+# 13 Firmware not updated - could not empty serial buffer in reasonable time
 import serial
 import sys
 import time
@@ -93,13 +93,16 @@ print('Opened file', sys.argv[1])
 port.reset_input_buffer() # Discard all contents of input buffer
 # Now read characters for a while until we're sure all the junk is out
 buffer_status = "not empty"
-print("Flushing serial buffer:")
+print("Flushing serial buffer.")
+loop_count = 0
 while buffer_status == "not empty":
 	input_data = port.read(1)
-	print(input_data)
+	#print(input_data)
+	loop_count += 1
 	if input_data == b'':
 		buffer_status = "empty"
-
+	if loop_count > 10:
+		GracefulExit(port, file, 13)
 
 
 # Check for stranded bootloader
@@ -123,16 +126,18 @@ if TNC_state == "KISS":
 	port.write(b'\xc0\x0d\x37\xc0') # Initiate bootloader mode on TNC
 
 	buffer_status = "not empty"
-	print("Flushing serial buffer again:")
+	print("Flushing serial buffer again.")
+	loop_count = 0
 	while buffer_status == "not empty":
 		input_data = port.read(1)
-		print("type is: ", type(input_data))
-		print(input_data)
+		#print("type is: ", type(input_data))
+		#print(input_data)
 		if input_data == '':
 			buffer_status = "empty"
 		if input_data == b'K':
 			buffer_status = "ready"
-	
+		if loop_count > 300:
+			GracefulExit(port, file, 13)
 
 	input_data = port.read(2) # Wait for 2 'K' characters
 	try:
