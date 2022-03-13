@@ -1,7 +1,7 @@
-# N9600A Firmware Updater version d
+# N9600A Firmware Updater version e
 # Nino Carrillo 
 # David Arthur
-# 23 July 2021
+# 19 Feb 2022
 # Exit codes:
 # 0 firmware was updated
 # 1 firmware not updated - TNC is current
@@ -16,7 +16,7 @@
 # 10 firmware not updated - chip version is dsPIC33EP512GP but hex file is for dsPIC33EP256GP
 # 11 firmware not updated - chip version is dsPIC33EP256GP but hex file is for dsPIC33EP512GP
 # 12 firmware not updated - incompatible version of Python
-
+# 13 Firmware not updated - could not empty serial buffer in reasonable time
 import serial
 import sys
 import time
@@ -39,7 +39,7 @@ if len(sys.argv) < 3:
 	sys.exit(2)
 
 try:
-	port = serial.Serial(sys.argv[2], baudrate=57600, bytesize=8, parity='N', stopbits=1, xonxoff=0, rtscts=0, timeout=3)
+	port = serial.Serial(sys.argv[2], baudrate=57600, bytesize=8, parity='N', stopbits=1, xonxoff=0, rtscts=0, timeout=5)
 except:
 	print('Unable to open serial port.')
 	sys.exit(3)
@@ -73,6 +73,12 @@ while line != "" and hex_file_target == "unknown":
 	if ':102800007c00fa00503f980000002200000f780082' in line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
+	if ':102800002f08b000889fbe008a9fbe008c9fbe002c' in line:
+		hex_file_target = "dsPIC33EP256GP"
+		print("Hex file target:", hex_file_target)
+	if ':108800002f08b000889fbe008a9fbe008c9fbe00cc' in line:
+		hex_file_target = "dsPIC33EP512GP"
+		print("Hex file target:", hex_file_target)
 	line = file.readline()
 
 if hex_file_target == "unknown":
@@ -85,6 +91,18 @@ file.seek(0)
 print('Opened file', sys.argv[1])
 
 port.reset_input_buffer() # Discard all contents of input buffer
+# Now read characters for a while until we're sure all the junk is out
+buffer_status = "not empty"
+print("Flushing serial buffer.")
+loop_count = 0
+while buffer_status == "not empty":
+	input_data = port.read(1)
+	#print(input_data)
+	loop_count += 1
+	if input_data == b'':
+		buffer_status = "empty"
+	if loop_count > 10:
+		GracefulExit(port, file, 13)
 
 
 # Check for stranded bootloader
@@ -106,6 +124,21 @@ print("Starting TNC reflash mode. Don't interrupt this process, the dsPIC may br
 
 if TNC_state == "KISS":
 	port.write(b'\xc0\x0d\x37\xc0') # Initiate bootloader mode on TNC
+
+	buffer_status = "not empty"
+	print("Flushing serial buffer again.")
+	loop_count = 0
+	while buffer_status == "not empty":
+		input_data = port.read(1)
+		#print("type is: ", type(input_data))
+		#print(input_data)
+		if input_data == '':
+			buffer_status = "empty"
+		if input_data == b'K':
+			buffer_status = "ready"
+		if loop_count > 300:
+			GracefulExit(port, file, 13)
+
 	input_data = port.read(2) # Wait for 2 'K' characters
 	try:
 		input_data = input_data.decode("ascii")
@@ -143,7 +176,7 @@ else:
 port.write(b'V')# send command to read bootloader version
 input_data = port.read(1)
 version = input_data.decode('ascii')
-if version == 'a' or version == 'b' or version == 'B' or version == 'c':
+if version == 'a' or version == 'b' or version == 'B' or version == 'c' or version == 'd' or version == 'C' or version == 'D' :
 	print('TNC bootlader version: ', version)
 else:
 	print('Unsupported TNC bootloader version, terminating.')
@@ -153,19 +186,24 @@ else:
 	GracefulExit(port, file, 7)
 	
 # Check hex file version matches bootloader version
-if version == 'a' or version == 'b': # these bootloaders are installed in dsPIC33EP256GP
-	if hex_file_target != "dsPIC33EP256GP":
-		print("Chip version is dsPIC33EP256GP but hex file is for dsPIC33EP512GP, terminating.")
-		port.write(b'R') # Try to return TNC to normal KISS mode
-		time.sleep(1)
-		GracefulExit(port, file, 10)
+chip_revision = "unknown_chip"
+if version == 'a' or version == 'b' or version == 'c' or version == 'd': # these bootloaders are installed in dsPIC33EP256GP
+	chip_revision = "dsPIC33EP256GP"
 
-if version == 'B': # this bootloader is installed in dsPIC33EP512GP
-	if hex_file_target != "dsPIC33EP512GP":
-		print("Chip version is dsPIC33EP512GP but hex file is for dsPIC33EP256GP, terminating.")
-		port.write(b'R') # Try to return TNC to normal KISS mode
-		time.sleep(1)
-		GracefulExit(port, file, 11)
+if version == 'B' or version == 'C' or version == 'D': # this bootloader is installed in dsPIC33EP512GP
+	chip_revision = "dsPIC33EP512GP"
+
+if chip_revision == "unknown_chip":
+	print("Chip revision is unknown, terminating.")
+	port.write(b'R') # Try to return TNC to normal KISS mode
+	time.sleep(1)
+	GracefulExit(port, file, 10)
+	
+if hex_file_target != chip_revision:
+	print("Chip version does not match hex file, terminating.")
+	port.write(b'R') # Try to return TNC to normal KISS mode
+	time.sleep(1)
+	GracefulExit(port, file, 10)
 
 print('TNC ready for hex file, starting transfer. This will take a few minutes.')
 line = file.readline()

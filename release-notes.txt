@@ -122,3 +122,21 @@
 // 3/4.04: 17-Apr-21 : Improved AFSK receive performance.
 // 3.05:   19-Apr-21 : Fixed bootloader bug, added backwards compatibility to 'a' bootloader in dsPIC33EP256GP502.
 // 3/4.06: 20-Apr-21 : Added bootloader self-update capability, updated EP256 to 'c' bootloader.
+// 3/4.07: 30-Jan-22 : Adjusted DAC neutral output 104 counts closer to ground to avoid over-driving MCP604 op-amp input.
+//                   : Restructured memory. 
+//                   : Transitioned to xc16 v2.00 compiler, optimization level -O1.
+//                   : Updated bootloader to 'd' for 256 chips and 'D' for 512 chips.
+//                   : ****************** MEMORY ALLOCATION ******************
+//                   :   FUNCTION                  3.07            4.07
+//                   : UART FROM HOST           4096 bytes      8192 bytes    Limits maximum window size (MAXFRAME) for connected links.
+//                   : TX DATA BUFFER           541  words      541  words    Limits maximum transmit packet size to 541*16 = 8,656 bits including all overhead.
+//                   : TX DATA BUFFER COUNT     3               3             Permits back-to-back transmits (a packet can be prepared for transmit while another is transmitted).
+//                   : TX DAC SAMPLE BUFFER     144  words      144  words    Transmit audio samples, passed to OC module via DMA. 86,400 Hz sample rate.
+//                   : TX DAC BUFFER COUNT      16              16            Permits 26.67mS of audio to be queued prior to transmit to prevent underruns.
+//                   : RX ADC SAMPLE BUFFER     96   words      96   words    Receive audio samples collected by ADC via DMA. 57,600 Hz sample rate.
+//                   : RX ADC BUFFER COUNT      16              16            Permits up to 26.67mS of demodulation processing delay prior to sample loss.
+//                   : RX DATA BUFFER           8    words      8    words    Data buffers where sliced bits demodulated from receive audio are collected.
+//                   : RX BUFFER COUNT          9               9             Allows additional data accumulation during packet decoding.
+//                   : AX25 RECEIVER            1068  bytes     1068 bytes    Limits maximum AX.25 receive packet size, inclusive of header, payload, and CRC.
+//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols. 
+//                   : UART TO HOST             1100 bytes      1100 bytes    Limits maximum KISS frame size returned to host.
