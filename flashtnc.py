@@ -143,7 +143,6 @@ if success == 0:
 		buffer_status = "not empty"
 		print("Flushing serial buffer again.")
 		start_time = time.time()
-		#time.clock()
 		while buffer_status == "not empty":
 			input_data = port.read(1)
 			elapsed_time = time.time() - start_time
@@ -157,11 +156,8 @@ print("Starting TNC reflash mode. Don't interrupt this process, the dsPIC may br
 
 if TNC_state == "KISS":
 	port.write(b'\xc0\x0d\x37\xc0') # Initiate bootloader mode on TNC
-#	print("Sent bootloader initiation command to TNC. Waiting 3 seconds.")
-#	time.sleep(3)
 	buffer_status = "not empty"
 	start_time = time.time()
-	#time.clock()
 	success = 0
 	while buffer_status == "not empty":
 		input_data = port.read(1)
