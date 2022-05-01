@@ -106,6 +106,10 @@ while buffer_status == "not empty":
 	elapsed_time = time.time() - start_time
 	if input_data == b'':
 		buffer_status = "empty"
+	if isinstance(input_data, bytes):
+		print("Read bytes")
+	if isinstance(input_data, str):
+		print("Read str")
 	if elapsed_time > 15.0:
 		print("Unable to empty serial buffer. Ensure TNC is not receiving data (maybe turn off radio).")
 		GracefulExit(port, file, 13)
@@ -145,6 +149,10 @@ if TNC_state == "KISS":
 		if input_data == b'K':
 			buffer_status = "ready"
 			success = 1
+		if isinstance(input_data, bytes):
+			print("Read bytes")
+		if isinstance(input_data, str):
+			print("Read str")
 		if elapsed_time > 15.0:
 			print("Did not receive ready signal from bootloader.")
 			GracefulExit(port, file, 13)
@@ -170,6 +178,11 @@ while version == 'K' or version == '':
 	version = input_data.decode('ascii')
 	elapsed_time = time.time() - start_time
 	if elapsed_time > 5.0:
+		print(input_data)
+		if isinstance(input_data, bytes):
+			print("Read bytes")
+		if isinstance(input_data, str):
+			print("Read str")
 		print("Unable to get TNC bootloader version. Try removing TNC USB cable and reattaching.")
 		GracefulExit(port, file, 6)
 
@@ -240,6 +253,10 @@ while line != "":
 				result = 0
 			else:
 				print("No response from TNC, dsPIC may need replacement or ICSP reflash.")
+				if isinstance(input_data, bytes):
+					print("Read bytes")
+				if isinstance(input_data, str):
+					print("Read str")
 				print(input_data)
 				line = ""
 				result = 0
