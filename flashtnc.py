@@ -20,7 +20,6 @@
 import serial
 import sys
 import time
-import timeit
 
 if sys.version_info < (3, 0): 
 	print("Python version should be 3.x, exiting")
@@ -95,10 +94,11 @@ port.reset_input_buffer() # Discard all contents of input buffer
 # Now read characters for a while until we're sure all the junk is out
 buffer_status = "not empty"
 print("Flushing serial buffer.")
-start_time = timeit.default_timer()
+start_time = time.time()
+#time.clock()
 while buffer_status == "not empty":
 	input_data = port.read(1)
-	elapsed_time = timeit.default_timer() - start_time
+	elapsed_time = time.time() - start_time
 	if input_data == b'':
 		buffer_status = "empty"
 	if elapsed_time > 15.0:
@@ -129,11 +129,12 @@ if TNC_state == "KISS":
 	print("Sent bootloader initiation command to TNC. Waiting 3 seconds.")
 	time.sleep(3)
 	buffer_status = "not empty"
-	start_time = timeit.default_timer()
+	start_time = time.time()
+	#time.clock()
 	success = 0
 	while buffer_status == "not empty":
 		input_data = port.read(1)
-		elapsed_time = timeit.default_timer() - start_time
+		elapsed_time = time.time() - start_time
 		if input_data == '':
 			buffer_status = "empty"
 		if input_data == b'K':
@@ -157,11 +158,12 @@ else:
 port.write(b'V')# send command to read bootloader version
 input_data = port.read(1)
 version = input_data.decode('ascii')
-start_time = timeit.default_timer()
+start_time = time.time()
+#time.clock()
 while version == 'K' or version == '':
 	input_data = port.read(1)
 	version = input_data.decode('ascii')
-	elapsed_time = timeit.default_timer() - start_time
+	elapsed_time = time.time() - start_time
 	if elapsed_time > 5.0:
 		print("Unable to get TNC bootloader version. Try removing TNC USB cable and reattaching.")
 		GracefulExit(port, file, 6)
