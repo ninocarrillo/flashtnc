@@ -40,7 +40,7 @@ if len(sys.argv) < 3:
 	sys.exit(2)
 
 try:
-	port = serial.Serial(sys.argv[2], baudrate=57600, bytesize=8, parity='N', stopbits=1, xonxoff=0, rtscts=0, timeout=5)
+	port = serial.Serial(sys.argv[2], baudrate=57600, bytesize=8, parity='N', stopbits=1, xonxoff=0, rtscts=0, timeout=1)
 except:
 	print('Unable to open serial port.')
 	sys.exit(3)
@@ -111,13 +111,13 @@ print("Checking for stranded bootloader mode in TNC.")
 TNC_state = "KISS"
 success = 0
 port.write(b'R')
-input_data = port.read(2) # Wait for 2 'K' characters
+input_data = port.read(1)
 try:
 	input_data = input_data.decode("ascii")
 except:
 	print("Unable to decode response.")
 finally:
-	if input_data == "KK":
+	if input_data == "K":
 		print("Found stranded bootloader.")
 		TNC_state = "Stranded"
 		success = 1
@@ -139,7 +139,7 @@ if TNC_state == "KISS":
 		if input_data == b'K':
 			buffer_status = "ready"
 			success = 1
-		if elapsed_time > 5.0:
+		if elapsed_time > 15.0:
 			print("Did not receive ready signal from bootloader.")
 			GracefulExit(port, file, 13)
 
