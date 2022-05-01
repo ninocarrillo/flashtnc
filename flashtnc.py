@@ -92,10 +92,6 @@ print('Opened file', sys.argv[1])
 
 port.reset_input_buffer() # Discard all contents of input buffer
 port.reset_output_buffer()
-input_count = port.in_waiting
-output_count = port.out_waiting
-print("Input buffer count: ", input_count)
-print("Output buffer count: ", output_count)
 # Now read characters for a while until we're sure all the junk is out
 buffer_status = "not empty"
 print("Flushing serial buffer.")
@@ -106,15 +102,12 @@ while buffer_status == "not empty":
 	elapsed_time = time.time() - start_time
 	if input_data == b'':
 		buffer_status = "empty"
-	if isinstance(input_data, bytes):
-		print("Read bytes")
-	if isinstance(input_data, str):
-		print("Read str")
 	if elapsed_time > 15.0:
 		print("Unable to empty serial buffer. Ensure TNC is not receiving data (maybe turn off radio).")
 		GracefulExit(port, file, 13)
 
 print("Seems like the serial buffer is empty.")
+
 print("Checking for stranded bootloader mode in TNC.")
 # Check for stranded bootloader
 TNC_state = "KISS"
@@ -130,13 +123,42 @@ finally:
 		print("Found stranded bootloader.")
 		TNC_state = "Stranded"
 		success = 1
+		
+if success == 0:
+	# Force the TNC to send data, while reading. This is to reset the various bufferes between the dsPIC and this algorithm.
+		port.write(b'\xc0\x0b\xc0') # GETALL command
+		time.sleep(0.5)
+		print("Clearing input buffer bytes: ", port.in_waiting)
+		port.reset_input_buffer()
+		port.write(b'\xc0\x0b\xc0') # GETALL command
+		time.sleep(0.5)
+		print("Clearing input buffer bytes: ", port.in_waiting)
+		port.reset_input_buffer()
+		port.write(b'\xc0\x0b\xc0') # GETALL command
+		time.sleep(0.5)
+		print("Clearing input buffer bytes: ", port.in_waiting)
+		port.reset_input_buffer()
+
+		# Now read characters for a while until we're sure all the junk is out
+		buffer_status = "not empty"
+		print("Flushing serial buffer again.")
+		start_time = time.time()
+		#time.clock()
+		while buffer_status == "not empty":
+			input_data = port.read(1)
+			elapsed_time = time.time() - start_time
+			if input_data == b'':
+				buffer_status = "empty"
+			if elapsed_time > 15.0:
+				print("Unable to empty serial buffer. Ensure TNC is not receiving data (maybe turn off radio).")
+				GracefulExit(port, file, 13)
 
 print("Starting TNC reflash mode. Don't interrupt this process, the dsPIC may brick.")
 
 if TNC_state == "KISS":
 	port.write(b'\xc0\x0d\x37\xc0') # Initiate bootloader mode on TNC
-	print("Sent bootloader initiation command to TNC. Waiting 3 seconds.")
-	time.sleep(3)
+#	print("Sent bootloader initiation command to TNC. Waiting 3 seconds.")
+#	time.sleep(3)
 	buffer_status = "not empty"
 	start_time = time.time()
 	#time.clock()
@@ -149,10 +171,6 @@ if TNC_state == "KISS":
 		if input_data == b'K':
 			buffer_status = "ready"
 			success = 1
-		if isinstance(input_data, bytes):
-			print("Read bytes")
-		if isinstance(input_data, str):
-			print("Read str")
 		if elapsed_time > 15.0:
 			print("Did not receive ready signal from bootloader.")
 			GracefulExit(port, file, 13)
@@ -178,11 +196,6 @@ while version == 'K' or version == '':
 	version = input_data.decode('ascii')
 	elapsed_time = time.time() - start_time
 	if elapsed_time > 5.0:
-		print(input_data)
-		if isinstance(input_data, bytes):
-			print("Read bytes")
-		if isinstance(input_data, str):
-			print("Read str")
 		print("Unable to get TNC bootloader version. Try removing TNC USB cable and reattaching.")
 		GracefulExit(port, file, 6)
 
@@ -191,6 +204,8 @@ if version == 'a' or version == 'b' or version == 'B' or version == 'c' or versi
 else:
 	print('Unsupported TNC bootloader version, terminating.')
 	port.write(b'R') # attempt to reset TNC
+	print(input_data)
+	print(type(input_data))
 	print(version)
 	time.sleep(1)
 	GracefulExit(port, file, 7)
@@ -253,10 +268,6 @@ while line != "":
 				result = 0
 			else:
 				print("No response from TNC, dsPIC may need replacement or ICSP reflash.")
-				if isinstance(input_data, bytes):
-					print("Read bytes")
-				if isinstance(input_data, str):
-					print("Read str")
 				print(input_data)
 				line = ""
 				result = 0
@@ -271,27 +282,34 @@ while line != "":
 		except:
 			print("Line error.")
 		finally:
-			input_data = port.read(1)
-			if input_data == b'K':
+			while(port.in_waiting == 0):
+				pass
+			try:
+				input_data = port.read(1)
+			except:
+				print("read fail!!!")
+			input_data = input_data.decode('ascii')
+			if input_data == 'K':
 				line_count = line_count + 1
 				line = file.readline()
-			elif input_data == b'Z':
+			elif input_data == 'Z':
 				line = ""
 				result = 1
-			elif input_data == b'F':
+			elif input_data == 'F':
 				print("Flash failed, dsPIC may need replacement.")
 				line = ""
 				result = 0
-			elif input_data == b'N':
+			elif input_data == 'N':
 				print("Line checksum invalid. Hex file may be corrupt.")
 				line = ""
 				result = 0
-			elif input_data == b'X':
+			elif input_data == 'X':
 				print("Invalid character in line. Hex file may be corrupt.")
 				line = ""
 				result = 0
 			else:
-				print("No response from TNC, dsPIC may need replacement or ICSP reflash.")
+				print("Invalid response from TNC, dsPIC may need replacement or ICSP reflash.")
+				print(input_data)
 				line = ""
 				result = 0
 
