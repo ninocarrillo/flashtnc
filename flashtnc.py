@@ -40,7 +40,7 @@ if len(sys.argv) < 3:
 	sys.exit(2)
 
 try:
-	port = serial.Serial(sys.argv[2], baudrate=57600, bytesize=8, parity='N', stopbits=1, xonxoff=0, rtscts=0, timeout=3)
+	port = serial.Serial(sys.argv[2], baudrate=57600, bytesize=8, parity='N', stopbits=1, xonxoff=0, rtscts=0, timeout=5)
 except:
 	print('Unable to open serial port.')
 	sys.exit(3)
