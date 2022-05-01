@@ -211,6 +211,7 @@ while line != "":
 			print("Line 1 error.")
 		finally:
 			input_data = port.read(1)
+			input_data = input_data.decode('ascii')
 			if input_data == b'K':
 				line_count = line_count + 1
 				line = file.readline()
@@ -232,6 +233,7 @@ while line != "":
 				result = 0
 			else:
 				print("No response from TNC, dsPIC may need replacement or ICSP reflash.")
+				print(input_data)
 				line = ""
 				result = 0
 	else:
