@@ -126,6 +126,7 @@ finally:
 		
 if success == 0:
 	# Force the TNC to send data, while reading. This is to reset the various bufferes between the dsPIC and this algorithm.
+		print("Intentionally filling and flushing the serial buffer.")
 		port.write(b'\xc0\x0b\xc0') # GETALL command
 		time.sleep(0.5)
 		print("Clearing input buffer bytes: ", port.in_waiting)
