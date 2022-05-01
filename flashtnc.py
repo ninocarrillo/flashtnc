@@ -101,9 +101,9 @@ while buffer_status == "not empty":
 	elapsed_time = timeit.default_timer() - start_time
 	if input_data == b'':
 		buffer_status = "empty"
-		if elapsed_time > 15.0:
-			print("Unable to empty serial buffer. Ensure TNC is not receiving data (maybe turn off radio).")
-			GracefulExit(port, file, 13)
+	if elapsed_time > 15.0:
+		print("Unable to empty serial buffer. Ensure TNC is not receiving data (maybe turn off radio).")
+		GracefulExit(port, file, 13)
 
 print("Seems like the serial buffer is empty.")
 print("Checking for stranded bootloader mode in TNC.")
