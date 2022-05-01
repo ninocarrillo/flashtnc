@@ -212,22 +212,22 @@ while line != "":
 		finally:
 			input_data = port.read(1)
 			input_data = input_data.decode('ascii')
-			if input_data == b'K':
+			if input_data == 'K':
 				line_count = line_count + 1
 				line = file.readline()
-			elif input_data == b'Z':
+			elif input_data == 'Z':
 				print("Flash successful.")
 				line = ""
 				result = 1
-			elif input_data == b'F':
+			elif input_data == 'F':
 				print("Flash failed, dsPIC may need replacement.")
 				line = ""
 				result = 0
-			elif input_data == b'N':
+			elif input_data == 'N':
 				print("Line checksum invalid. Hex file may be corrupt.")
 				line = ""
 				result = 0
-			elif input_data == b'X':
+			elif input_data == 'X':
 				print("Invalid character in line. Hex file may be corrupt.")
 				line = ""
 				result = 0
