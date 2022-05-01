@@ -1,7 +1,7 @@
-# N9600A Firmware Updater version e
+# N9600A Firmware Updater version f
 # Nino Carrillo 
 # David Arthur
-# 19 Feb 2022
+# 1 May 2022
 # Exit codes:
 # 0 firmware was updated
 # 1 firmware not updated - TNC is current
@@ -20,6 +20,7 @@
 import serial
 import sys
 import time
+import timeit
 
 if sys.version_info < (3, 0): 
 	print("Python version should be 3.x, exiting")
@@ -94,17 +95,18 @@ port.reset_input_buffer() # Discard all contents of input buffer
 # Now read characters for a while until we're sure all the junk is out
 buffer_status = "not empty"
 print("Flushing serial buffer.")
-loop_count = 0
+start_time = timeit.default_timer()
 while buffer_status == "not empty":
 	input_data = port.read(1)
-	#print(input_data)
-	loop_count += 1
+	elapsed_time = timeit.default_timer() - start_time
 	if input_data == b'':
 		buffer_status = "empty"
-	if loop_count > 10:
-		GracefulExit(port, file, 13)
+		if elapsed_time > 15.0:
+			print("Unable to empty serial buffer. Ensure TNC is not receiving data (maybe turn off radio).")
+			GracefulExit(port, file, 13)
 
-
+print("Seems like the serial buffer is empty.")
+print("Checking for stranded bootloader mode in TNC.")
 # Check for stranded bootloader
 TNC_state = "KISS"
 success = 0
@@ -124,45 +126,22 @@ print("Starting TNC reflash mode. Don't interrupt this process, the dsPIC may br
 
 if TNC_state == "KISS":
 	port.write(b'\xc0\x0d\x37\xc0') # Initiate bootloader mode on TNC
-
+	print("Sent bootloader initiation command to TNC. Waiting 3 seconds.")
+	time.sleep(3)
 	buffer_status = "not empty"
-	print("Flushing serial buffer again.")
-	loop_count = 0
+	start_time = timeit.default_timer()
+	success = 0
 	while buffer_status == "not empty":
 		input_data = port.read(1)
-		#print("type is: ", type(input_data))
-		#print(input_data)
+		elapsed_time = timeit.default_timer() - start_time
 		if input_data == '':
 			buffer_status = "empty"
 		if input_data == b'K':
 			buffer_status = "ready"
-		if loop_count > 300:
-			GracefulExit(port, file, 13)
-
-	input_data = port.read(2) # Wait for 2 'K' characters
-	try:
-		input_data = input_data.decode("ascii")
-	except:
-		print('Invalid response entering bootloader mode.')
-		print(input_data)
-		GracefulExit(port, file, 6)
-	try_count = 0
-	success = 0
-	while try_count < 4:
-		try_count = try_count + 1
-		if input_data != "KK":
-			print("Retrying")
-			port.close()
-			port.open()
-			input_data = port.read(1)
-			while input_data != b'':
-				port.reset_input_buffer() # Discard all contents of input buffer
-				input_data = port.read(1)
-		else:
 			success = 1
-			try_count = 4
-	else:
-		success = 1;
+		if elapsed_time > 5.0:
+			print("Did not receive ready signal from bootloader.")
+			GracefulExit(port, file, 13)
 
 if success == 1:
 	print("TNC successfully entered bootloader mode.")
@@ -173,9 +152,20 @@ else:
 	time.sleep(1)
 	GracefulExit(port, file, 6)	
 
+
+
 port.write(b'V')# send command to read bootloader version
 input_data = port.read(1)
 version = input_data.decode('ascii')
+start_time = timeit.default_timer()
+while version == 'K' or version == '':
+	input_data = port.read(1)
+	version = input_data.decode('ascii')
+	elapsed_time = timeit.default_timer() - start_time
+	if elapsed_time > 5.0:
+		print("Unable to get TNC bootloader version. Try removing TNC USB cable and reattaching.")
+		GracefulExit(port, file, 6)
+
 if version == 'a' or version == 'b' or version == 'B' or version == 'c' or version == 'd' or version == 'C' or version == 'D' :
 	print('TNC bootlader version: ', version)
 else:
