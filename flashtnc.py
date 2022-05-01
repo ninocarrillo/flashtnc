@@ -91,6 +91,11 @@ file.seek(0)
 print('Opened file', sys.argv[1])
 
 port.reset_input_buffer() # Discard all contents of input buffer
+port.reset_output_buffer()
+input_count = port.in_waiting
+output_count = port.out_waiting
+print("Input buffer count: ", input_count)
+print("Output buffer count: ", output_count)
 # Now read characters for a while until we're sure all the junk is out
 buffer_status = "not empty"
 print("Flushing serial buffer.")
