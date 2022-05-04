@@ -11,9 +11,8 @@ Firmware updater for N9600A NinoTNCs. This Python3 script uses the bootloader re
 5. Run the flashtnc program to update firmware on your TNC
 ## Firmware Versions
 * The change log for firmware versions is contained in release-notes.txt.
-* I recommend using the most recent firmware (highest version number, currently 3.06 for dsPIC33EP256, and 4.06 for dsPIC33EP512).
-* Firmweare 2.70 and later allows deletion of RN2 by enabling internal pulldowns on some input pins. If your TNC doesn't have RN2, don't downgrade your firmware below 2.7x! The TNC will freeze if you do, and you'll need an ICSP reflash or replacement dsPIC with compatible firmware.
-* Version 3.06 and 4.06 include a feature that self-updates the bootloader on the chip. The new bootloader is version 'c' for dsPIC33EP256 chips. The bootloader code does not change for dsPIC33EP512 chips, it's still 'B'. Don't downgrade dsPIC33EP256 chips to versions earlier than 3.06, you will lose bootloading capability if you do. The chip will then require ICSP reflash with a programming device to update firmware and regain bootloader capability.
+* I recommend using the most recent firmware (highest version number, currently 3.14 for dsPIC33EP256, and 4.14 for dsPIC33EP512).
+* The firmware image includes a feature that self-updates the bootloader program on the chip. The new bootloader (as of firmware 3/4.14) is version 'd' for dsPIC33EP256 chips and 'D' for dsPIC33EP512 chips. Don't downgrade to earlier firmwares once you upgrade to 3/4.14. Bootloading capability will be lost if you do, and the chip will require ICSP reflash to regain it.
 # Instructions for 64-Bit Windows
 ## Installing Python3 and pyserial (64-Bit Windows)
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
@@ -98,7 +97,7 @@ $ python3 flashtnc.py [hex file] [serial device]
 ````
 # Notes for All Platforms
 ## If Python Doesn't Start
-If your attempt to launch python fails silently (just returns to the command prompt without an error), then try using an alternative command to start Python: "py", "python", and "python3" may work depending on OS. Use "python --version" to confirm you are invoking Python3.
+If your attempt to launch python fails silently (just returns to the command prompt without an error), then try using an alternative alias to start Python: "py -3", "python -3", and "python3" may work depending on OS. Use "python --version" to confirm you are invoking Python3.
 ## What to Expect
 During firmware update, the LEDs on the TNC will all light up and some will flash extremely quickly (it will just look like dimming). You'll see a progressive line count as the hex file is transferred. Recent firmware has around 17,000 lines. It will take about 4 minutes or less to update the firmware once the script is started. The TNC will reboot when the update is complete. For firmware versions 3.06 / 4.06 and later, you will see the green RX PKT LED flash quickly for 2 seconds after the firsts reboot post-updating. This indicates that the TNC has successfully updated its bootloader program with the image contained in the new firmware. This only happens on the first reboot after a flash upgrade.
 * The DIP switches can be in any position during this procedure.
