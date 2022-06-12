@@ -164,3 +164,12 @@
 //                   : Improved TEST TX button debounce.
 // 3/4.13: 04-Mar-22 : Fixed mode 0101 2400 DPSK IL2P - broken in 3/4.12.
 // 3/4.14: 07-Mar-22 : Restored GETALL data dump.
+// 3/4.15: 19-Apr-22 : Added stand-alone linktest mode.
+// 3/4.16: 08-Jun-22 : Added Weak-Signal modes based on 1600/1800 Hz AFSK.
+//                   : New MODE switch mapping:
+//                   : 1111 300 baud AFSK AX.25 (compatible with HF APRS)
+//                   : 1110 300 baud AFSK IL2P
+//                   : 1101 300 baud AFSK IL2P with rate 1/2 Convolution and Viterbi decoding (~150 bps)
+//                   : 1100 150 baud AFSK with Block Interleaving and Convolution (~40 bps)
+//                   : See IL2P Specification document v0.5 for description of weak signal modes.
+//                   : http://tarpn.net/t/il2p/il2p-5.html
