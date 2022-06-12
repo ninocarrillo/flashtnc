@@ -166,7 +166,7 @@
 // 3/4.14: 07-Mar-22 : Restored GETALL data dump.
 // 3/4.15: 19-Apr-22 : Added stand-alone linktest mode.
 // 3/4.16: 08-Jun-22 : Added Weak-Signal modes based on 1600/1800 Hz AFSK.
-//                   : New MODE switch mapping:
+//                   : New MODE switch mapping for A3 and A4 includes all previous settings plus:
 //                   : 1111 300 baud AFSK AX.25 (compatible with HF APRS)
 //                   : 1110 300 baud AFSK IL2P
 //                   : 1101 300 baud AFSK IL2P with rate 1/2 Convolution and Viterbi decoding (~150 bps)
