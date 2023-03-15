@@ -11,9 +11,8 @@ Firmware updater for N9600A NinoTNCs. This Python3 script uses the bootloader re
 5. Run the flashtnc program to update firmware on your TNC
 ## Firmware Versions
 * The change log for firmware versions is contained in release-notes.txt.
-* I recommend using the most recent "release" firmware (highest version number, currently 3.14 for dsPIC33EP256, and 4.14 for dsPIC33EP512).
-* The firmware image includes a feature that self-updates the bootloader program on the chip. The new bootloader (as of firmware 3/4.14) is version 'd' for dsPIC33EP256 chips and 'D' for dsPIC33EP512 chips. Don't downgrade to earlier firmwares once you upgrade to 3/4.14. Bootloading capability will be lost if you do, and the chip will require ICSP reflash to regain it.
-* "beta" firmware includes new features that we're still testing, and may have some bugs. Avoid "beta" unless you are adventurous.
+* I recommend using the most recent "release" firmware (highest version number, currently 3.21 for dsPIC33EP256, and 4.21 for dsPIC33EP512).
+* The firmware image includes a feature that self-updates the bootloader program on the chip. The new bootloader (as of firmware 3/4.21) is version 'd' for dsPIC33EP256 chips and 'D' for dsPIC33EP512 chips.
 # Instructions for 64-Bit Windows
 ## Installing Python3 and pyserial (64-Bit Windows)
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
@@ -100,7 +99,7 @@ $ python3 flashtnc.py [hex file] [serial device]
 ## If Python Doesn't Start
 If your attempt to launch python fails silently (just returns to the command prompt without an error), then try using an alternative alias to start Python: "py -3", "python -3", and "python3" may work depending on OS. Use "python --version" to confirm you are invoking Python3.
 ## What to Expect
-During firmware update, the LEDs on the TNC will all light up and some will flash extremely quickly (it will just look like dimming). You'll see a progressive line count as the hex file is transferred. Recent firmware has around 17,000 lines. It will take about 4 minutes or less to update the firmware once the script is started. The TNC will reboot when the update is complete. For firmware versions 3.06 / 4.06 and later, you will see the green RX PKT LED flash quickly for 2 seconds after the firsts reboot post-updating. This indicates that the TNC has successfully updated its bootloader program with the image contained in the new firmware. This only happens on the first reboot after a flash upgrade.
+During firmware update, the LEDs on the TNC will all light up and some will flash extremely quickly (it will just look like dimming). You'll see a progressive line count as the hex file is transferred. Recent firmware has around 20,000 lines. It will take about 4 minutes or less to update the firmware once the script is started. The TNC will reboot when the update is complete. For firmware versions 3.06 / 4.06 and later, you will see the green RX PKT LED flash quickly for 2 seconds after the firsts reboot post-updating. This indicates that the TNC has successfully updated its bootloader program with the image contained in the new firmware. This only happens on the first reboot after a flash upgrade.
 * The DIP switches can be in any position during this procedure.
 * The DIP switch funciton mapping may be different after firmware update, check release notes for the firmware version.
 * The update may change TX DELAY control sensitivity. Check this if the firmware update causes old links to stop working.
