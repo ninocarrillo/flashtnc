@@ -47,7 +47,7 @@
 //                  :   does not change deviation, but does change the tuning tone.
 //                  : - The "best" deviation will be based on many factors, such as the specific
 //                  :   radios used in the link.
-//                  : - 3kHz deviation should work for most setups. 
+//                  : - 3kHz deviation should work for most setups.
 //                  : - 2400 Baud mode does not REQUIRE 5kHz deviation (3kHz is fine).
 //                  : - The tones selected in 4800 and 9600 mode provide Minimum Shift Keying,
 //                  :   but more deviation may work well too.
@@ -113,7 +113,7 @@
 //                   : RX DATA BUFFER           8    words      8    words    Data buffers where sliced bits demodulated from receive audio are collected.
 //                   : RX BUFFER COUNT          9               9             Allows additional data accumulation during packet decoding.
 //                   : AX25 RECEIVER            300  bytes      1068 bytes    Limits maximum AX.25 receive packet size, inclusive of header, payload, and CRC.
-//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols. 
+//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols.
 //                   : UART TO HOST             1100 bytes      1100 bytes    Limits maximum KISS frame size returned to host.
 //
 // 3/4.01: 23-Jan-21 : Modified serial number storage in flash program memory.
@@ -137,7 +137,7 @@
 //                   : RX DATA BUFFER           8    words      8    words    Data buffers where sliced bits demodulated from receive audio are collected.
 //                   : RX BUFFER COUNT          9               9             Allows additional data accumulation during packet decoding.
 //                   : AX25 RECEIVER            1068  bytes     1068 bytes    Limits maximum AX.25 receive packet size, inclusive of header, payload, and CRC.
-//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols. 
+//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols.
 //                   : UART TO HOST             1100 bytes      1100 bytes    Limits maximum KISS frame size returned to host.
 // 3/4.08: 22-Feb-22 : Added 3-bit unit ID set by switches.
 // 3/4.09: 23-Feb-22 : Improved receive UART buffer overflow handling.
@@ -156,7 +156,7 @@
 //                   : RX DATA BUFFER           8    words      8    words    Data buffers where sliced bits demodulated from receive audio are collected.
 //                   : RX BUFFER COUNT          9               9             Allows additional data accumulation during packet decoding.
 //                   : AX25 RECEIVER            1068  bytes     1068 bytes    Limits maximum AX.25 receive packet size, inclusive of header, payload, and CRC.
-//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols. 
+//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols.
 //                   : UART TO HOST             1100 bytes      1100 bytes    Limits maximum KISS frame size returned to host.
 // 3/4.12: 04-Mar-22 : Added logic to process all KISS frames regardless of target port.
 //                   : Fixed NVM write bug.
@@ -173,3 +173,35 @@
 //                   : 1100 150 baud AFSK with Block Interleaving and Convolution (~40 bps)
 //                   : See IL2P Specification document v0.5 for description of weak signal modes.
 //                   : http://tarpn.net/t/il2p/il2p-5.html
+// 3/4.17: 01-Aug-22 : Fixed TARPN periodic data dump bug.
+// 3/4.18: 09-Jan-23 : Adjusted TEST_TX button debounce times.
+//                   : Improved AFSK demodulator efficiency.
+//                   : Adjusted Data Slicer PLL feedback rates.
+//                   : Improved input filtering for GFSK and DPSK modes.
+//                   : Added input overload detection for GFSK modes.
+//                   : Fixed RX PKT LED bug on boot.
+// 3/4.19: 12-Jan-23 : Optimize SSB AFSK receive.
+// 3/4.20: 21-Jan-23 : Relax host callsign validity check, allows double-digits.
+// 3/4.21: 21-Jan-23 : Inhibit slicer DCD logic for input signals below ~200mV.
+//                   :
+//                   : MODE switch mapping:
+//                   :
+//                   : 0000 9600 GFSK AX.25 ⌉ These modes require a data port or
+//                   : 0001 9600 GFSK IL2P  ⎮ discriminator/varactor connection.
+//                   : 0010 4800 GFSK AX.25 ⎮
+//                   : 0011 4800 GFSK IL2P  ⌋
+//                   :
+//                   : 0100 2400 DPSK AX.25 ⌉ These modes are suitable for
+//                   : 0101 2400 DPSK IL2P  ⎮ speaker/mic connection.
+//                   : 0110 1200 AFSK AX.25 ⎮
+//                   : 0111 1200 AFSK IL2P  ⌋
+//                   :
+//                   : 1100  300 AFSK AX.25 ⌉ These modes are intended for SSB
+//                   : 1101  300 AFSK IL2P  ⎮ operation.
+//                   : 1110  150 AFSK AX.25 ⎮
+//                   : 1111  150 AFSK IL2P  ⌋
+//                   :
+//                   : 1000                 ⌉ These switch settings are reserved
+//                   : 1001                 ⎮ for future modes.
+//                   : 1010                 ⎮
+//                   : 1011                 ⌋
