@@ -12,7 +12,7 @@ Firmware updater for N9600A NinoTNCs. This Python3 script uses the bootloader re
 ## Firmware Versions
 * The change log for firmware versions is contained in release-notes.txt.
 * I recommend using the most recent "release" firmware (highest version number, currently 3.21 for dsPIC33EP256, and 4.21 for dsPIC33EP512).
-* The firmware image includes a feature that self-updates the bootloader program on the chip. The new bootloader (as of firmware 3/4.21) is version 'd' for dsPIC33EP256 chips and 'D' for dsPIC33EP512 chips.
+* The firmware image includes a feature that self-updates the bootloader program on the chip. The bootloader executive (as of firmware 3/4.07) identifies as version 'd' for dsPIC33EP256 chips and 'D' for dsPIC33EP512 chips.
 # Instructions for 64-Bit Windows
 ## Installing Python3 and pyserial (64-Bit Windows)
 1. Get the Python3 installer for your system here: https://www.python.org/downloads/
