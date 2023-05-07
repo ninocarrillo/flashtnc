@@ -208,3 +208,9 @@
 //                   : 1001                 ⎮ for future modes. For now, they
 //                   : 1010                 ⎮ will behave the same as the SSB
 //                   : 1011                 ⌋ modes above.
+// 3/4.22: 26-Apr-23 : Add Gaussian pulse filter for 150 and 300 baud.
+//                   : Add NCO dithering.
+// 3/4.23: 26-Apr-23 : Switch PWM DAC to Center-Align mode.
+//                   : Add AX25 header to KISS test frame from TEST_TX button.
+// 3/4.24: 07-May-23 : Fixed Reed Solomon decoder correcting beyond capability.
+//                   : Delete 2400 AX.25 mode.
