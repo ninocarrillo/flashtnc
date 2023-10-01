@@ -212,5 +212,45 @@
 //                   : Add NCO dithering.
 // 3/4.23: 26-Apr-23 : Switch PWM DAC to Center-Align mode.
 //                   : Add AX25 header to KISS test frame from TEST_TX button.
-// 3/4.24: 07-May-23 : Fixed Reed Solomon decoder correcting beyond capability.
+// 3/4.24: 07-May-23 : Fix Reed Solomon decoder correcting beyond capability.
 //                   : Delete 2400 AX.25 mode.
+// 3/4.25: 07-May-23 : 10 bit sqrt table.
+//                   : Adjust AFSK correlator gains.
+//                   : Reorganize NCO code.
+//                   : Add IIR filter assembly code.
+//                   : Accept 0XFE or 0X7E start flag in AX.25 mode (QTSM bug).
+// 3/4.27: 01-Oct-23 : Add QPSK 600 SSB mode (600 bps, 300 baud).
+//                   : Add BPSK 1200 SSB mode (1200 bps, 1200 baud).
+//                   : Add SSB ID in 300 baud AFSK AX.25.
+//                   : Adjusted BPSK/QPSK RRC rolloff to 0.6, span 6 for 300 baud PSK.
+//                   : BPSK/QPSK RRC rolloff 0.9, span 6 for 1200 baud PSK.
+//                   : Adjusted DCDLED sensitivity for AFSK AX.25 300 mode.
+//                   : Corrected DCDLED on-time tracking.
+//                   : Corrected TX_DELAY time computation for QPSK modes.
+//                   : Improved DCD response time for all modes.
+//                   : Adjusted Data Slicer DCD LED Inhibit voltage down to ~65mV (better DCD LED loopback testing).
+//                   : Added KISS TXDELAY command compliance with TX_DELAY pot set to 0.
+//                   : Adjusted QPSK phase map to match ITU V.26A.
+//                   : Fixed IL2P buffer memory address conflict, this was causing packet loss and retries in IL2P modes.
+//                   :
+//                   : Latest MODE switch mapping:
+//                   :
+//                   : 0000 9600 GFSK AX.25 ⌉ These modes require a data port or
+//                   : 0001 9600 GFSK IL2P  ⎮ discriminator/varactor connection.
+//                   : 0010 --------------- ⎮ Deleted 4800 AX.25
+//                   : 0011 4800 GFSK IL2P  ⌋
+//                   :
+//                   : 0100 --------------- ⌉ Deleted 2400 DPSK AX.25
+//                   : 0101 2400 DPSK IL2P  ⎮ These modes are suitable for
+//                   : 0110 1200 AFSK AX.25 ⎮ speaker/mic connection on 
+//                   : 0111 1200 AFSK IL2P  ⌋ FM voice radios.
+//                   :
+//                   : 1100  300 AFSK AX.25 ⌉ Legacy SSB AFSK packet using 
+//                   : 1101  300 AFSK IL2P  ⎮ 1600/1800Hz tones.
+//                   : 1110 --------------- ⎮ Deleted 150 AFSK AX.25.
+//                   : 1111 --------------- ⌋ Deleted 150 AFSK IL2P.
+//                   :
+//                   : 1000 --------------- ⌉ PSK modes centered on 1500Hz carrier.
+//                   : 1001  600 QPSK IL2P  ⎮ 500 Hz bandwidth, 300 baud.
+//                   : 1010 1200 BPSK IL2P  ⎮ 2400 Hz bandwidth, 1200 baud.
+//                   : 1011 --------------- ⌋ 
