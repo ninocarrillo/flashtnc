@@ -254,3 +254,54 @@
 //                   : 1001  600 QPSK IL2P  ⎮ 500 Hz bandwidth, 300 baud.
 //                   : 1010 1200 BPSK IL2P  ⎮ 2400 Hz bandwidth, 1200 baud.
 //                   : 1011 --------------- ⌋ 
+// 3/4.31: 24-Oct-23 :
+//                   : Adding Hamming code for IL2P CRC.
+//                   : Improved DCD LED coast time and CSMA logic.
+//                   : Added IL2P+CRC (IL2Pc) modes to reduce false decodes.
+//                   : Restored full dynamic range of AGC.
+//                   :
+//                   :                 MODE SWITCH MAPPING
+//                   : 
+//                   : ****************** GFSK MODES ***************************
+//                   : These require a '9600' data port or                     *
+//                   : discriminator/varactor connection.                      *
+//                   : IL2P, IL2Pc modes included for performance comparison.  *
+//                   : *********************************************************
+//                   : 0000 9600 GFSK AX.25                                    *
+//                   : 0001 9600 GFSK IL2P                                     *
+//                   : 0010 9600 GFSK IL2Pc                                    *
+//                   : 0011 4800 GFSK IL2P                                     *
+//                   : 0100 4800 GFSK IL2Pc                                    *
+//                   : *********************************************************
+//                   :
+//                   : ****************** FM AFSK MODES ************************
+//                   : These are suitable for FM radio speaker/                *
+//                   : mic connection.                                         *
+//                   : *********************************************************
+//                   : 0101 2400 DPSK IL2P  Phase reversal of 2400 Hz tone     *
+//                   : 0110 1200 AFSK AX.25 Legacy FM Packet, APRS             *
+//                   : 0111 1200 AFSK IL2P                                     *
+//                   : *********************************************************
+//                   :
+//                   : ****************** SSB AFSK MODES ***********************
+//                   : Legacy HF packet 1600/1800 Hz tone FSK.                 *
+//                   : Filtered for 500 Hz occupied bandwidth.                 *
+//                   : *********************************************************
+//                   : 1100  300 AFSK AX.25                                    *
+//                   : 1101  300 AFSK IL2P                                     *
+//                   : 1110  300 AFSK IL2Pc                                    *
+//                   : *********************************************************
+//                   :
+//                   : ****************** SHAPED PSK MODES *********************
+//                   : These are suitable for SSB radios, or FM radios.        *
+//                   : Phase modulation of 1500 Hz tone.                       *
+//                   : Filtered for occupied bandwidth depending on baud.      *
+//                   : 300 BPSK, 600 QPSK send 300 symbols/sec, 500 Hz OBW.    *
+//                   : 1200 BPSK, 2400 QPSK send 1200 symbols/sec, 2400 Hz OBW.*
+//                   : *********************************************************
+//                   : 1000  300 BPSK IL2Pc                                    *
+//                   : 1001  600 QPSK IL2Pc                                    *
+//                   : 1010 1200 BPSK IL2Pc                                    *
+//                   : 1011 2400 QPSK IL2Pc                                    *
+//                   : 1111 1200 BPSK IL2P                                     *
+//                   : *********************************************************
