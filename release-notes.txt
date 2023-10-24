@@ -255,10 +255,10 @@
 //                   : 1010 1200 BPSK IL2P  ⎮ 2400 Hz bandwidth, 1200 baud.
 //                   : 1011 --------------- ⌋ 
 // 3/4.31: 24-Oct-23 :
-//                   : Adding Hamming code for IL2P CRC.
 //                   : Improved DCD LED coast time and CSMA logic.
 //                   : Added IL2P+CRC (IL2Pc) modes to reduce false decodes.
 //                   : Restored full dynamic range of AGC.
+//                   : Change self-learn callsign algorithm to UI frames only.
 //                   :
 //                   :                 MODE SWITCH MAPPING
 //                   : 
