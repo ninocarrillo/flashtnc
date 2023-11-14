@@ -305,3 +305,6 @@
 //                   : 1011 2400 QPSK IL2Pc                                    *
 //                   : 1111 1200 BPSK IL2P                                     *
 //                   : *********************************************************
+// 3/4.32 13-Nov-23  : 
+//                   : Correct Reed Solomon error correction bounding.
+//                   : Add "+CRC" to text of IDENT packet for IL2Pc modes.
