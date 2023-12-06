@@ -308,3 +308,7 @@
 // 3/4.32 13-Nov-23  : 
 //                   : Correct Reed Solomon error correction bounding.
 //                   : Add "+CRC" to text of IDENT packet for IL2Pc modes.
+// 3/4.33 6-Dec-23   : 
+//                   : Add maximum test packet count. TNC will reboot after 100
+//                   : test packets have been self-generated.
+//                   : Add "1200 AFSK" mode case to text of IDENT packet.
