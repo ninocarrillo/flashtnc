@@ -312,7 +312,7 @@
 //                   : Add maximum test packet count. TNC will reboot after 100
 //                   : test packets have been self-generated.
 //                   : Add "1200 AFSK" mode case to text of IDENT packet.
-// 3/4.34 6-Jan-23   : Improve receive performance for BPSK and QPSK modes.
+// 3/4.34 6-Jan-24   : Improve receive performance for BPSK and QPSK modes.
 //                   : Maximum frequency mismatch for PSK modes:
 //                   : QPSK 2400 +/- 25Hz
 //                   : BPSK 1200 +/- 50Hz
