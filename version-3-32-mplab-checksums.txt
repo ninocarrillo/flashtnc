@@ -1,2 +1,0 @@
-MPLAB Checksum: 3033
-CRC32: C336C8FD
