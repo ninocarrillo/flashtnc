@@ -1,2 +1,0 @@
-MPLAB Checksum: AA21
-CRC32: 48436ECD

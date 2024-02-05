@@ -318,3 +318,5 @@
 //                   : BPSK 1200 +/- 50Hz
 //                   : QPSK 600  +/- 13Hz
 //                   : BPSK 300  +/- 25Hz
+// 3/4.35 18-Jan-24  : Adjust DCD response for AFSK 300 and AFSK 1200 to 
+//                   : reduce false positives.
