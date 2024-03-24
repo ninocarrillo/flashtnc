@@ -320,3 +320,18 @@
 //                   : BPSK 300  +/- 25Hz
 // 3/4.35 18-Jan-24  : Adjust DCD response for AFSK 300 and AFSK 1200 to 
 //                   : reduce false positives.
+//                   :
+// 3/4.36 22-Mar-24  : Add KISS TXTAIL functionality for IC-9700 compatibility.
+//                   :
+//                   : Add CQBEEP remote tone command, enabled when TNC detects
+//                   : it is attached to a TARPN host. Send a 440 Hz tone when
+//                   : TNC receives a packet with destination callsign CQBEEP.
+//                   : SSID in destination callsign is number of seconds of tone
+//                   : to be sent. Only functional when connected to TARPN host.
+//                   : TNC detects TARPN host when it receives a 'TARPNstat'
+//                   : message over USB. Detection is non-persistent, resets
+//                   : every reboot.
+//                   :
+//                   : Change test packet destination callsign to CQBEEP, with
+//                   : SSID 5. Test packet is sent when the TEST TX button is
+//                   : pressed.
