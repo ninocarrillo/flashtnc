@@ -1,2 +1,0 @@
-MPLAB Checksum: 260F
-CRC32: 9743161D
