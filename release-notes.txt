@@ -353,3 +353,6 @@
 //                   : Previous versions may improperly translate some non-AX.25
 //                   : frames due to non-mappable bit patterns in the callsign
 //                   : octets, or the control and PID octets.
+// 3/4.38 21-Apr-24  : Change IL2P+CRC syncword tolerance to 2 bit mismatch.
+//                   : Demodulator performance improvements for AFSK, BPSK, and
+//                   : QPSK modes. 
