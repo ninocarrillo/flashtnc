@@ -1,2 +1,0 @@
-MPLAB Checksum: D950
-CRC32: 500125DE

@@ -1,2 +1,0 @@
-MPLAB Checksum: E29C
-CRC32: 46A1436D
