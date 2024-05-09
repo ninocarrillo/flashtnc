@@ -356,3 +356,5 @@
 // 3/4.38 21-Apr-24  : Change IL2P+CRC syncword tolerance to 2 bit mismatch.
 //                   : Demodulator performance improvements for AFSK, BPSK, and
 //                   : QPSK modes. 
+// 3/4.39 09-May-24  : Add QPSK 3600 at MODE switch  position 0101. Delete DPSK 2400.
+
