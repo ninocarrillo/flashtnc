@@ -101,20 +101,6 @@
 //                   : Changed PENDING LED logic to illuminated when packets
 //                   : are waiting for transmit OR bytes are present in the
 //                   : KISS UART receive queue.
-//                   : ****************** MEMORY ALLOCATION ******************
-//                   :   FUNCTION                  3.00            4.00
-//                   : UART FROM HOST           2100 bytes      8192 bytes    Limits maximum window size (MAXFRAME) for connected links.
-//                   : TX DATA BUFFER           541  words      541  words    Limits maximum transmit packet size to 541*16 = 8,656 bits including all overhead.
-//                   : TX DATA BUFFER COUNT     3               3             Permits back-to-back transmits (a packet can be prepared for transmit while another is transmitted).
-//                   : TX DAC SAMPLE BUFFER     144  words      144  words    Transmit audio samples, passed to OC module via DMA. 86,400 Hz sample rate.
-//                   : TX DAC BUFFER COUNT      16              16            Permits 26.67mS of audio to be queued prior to transmit to prevent underruns.
-//                   : RX ADC SAMPLE BUFFER     96   words      96   words    Receive audio samples collected by ADC via DMA. 57,600 Hz sample rate.
-//                   : RX ADC BUFFER COUNT      16              16            Permits up to 26.67mS of demodulation processing delay prior to sample loss.
-//                   : RX DATA BUFFER           8    words      8    words    Data buffers where sliced bits demodulated from receive audio are collected.
-//                   : RX BUFFER COUNT          9               9             Allows additional data accumulation during packet decoding.
-//                   : AX25 RECEIVER            300  bytes      1068 bytes    Limits maximum AX.25 receive packet size, inclusive of header, payload, and CRC.
-//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols.
-//                   : UART TO HOST             1100 bytes      1100 bytes    Limits maximum KISS frame size returned to host.
 //
 // 3/4.01: 23-Jan-21 : Modified serial number storage in flash program memory.
 //                   : Serial number can only be set if value in flash program memory is clear.
@@ -127,18 +113,6 @@
 //                   : Organized program state flow.
 //                   : Transitioned to xc16 v2.00 compiler, optimization level -O1.
 //                   : Updated bootloader to 'd' for 256 chips and 'D' for 512 chips.
-//                   : ****************** MEMORY ALLOCATION ******************
-//                   :   FUNCTION                  3.07            4.07
-//                   : UART FROM HOST           2100 bytes      8192 bytes    Limits maximum window size (MAXFRAME) for connected links.
-//                   : TX DATA BUFFER           561  words      561  words    Limits maximum transmit packet size to 561*16 = 8,976 bits including all overhead.
-//                   : TX DATA BUFFER COUNT     3               3             Permits back-to-back transmits (a packet can be prepared for transmit while another is transmitted).
-//                   : RX ADC SAMPLE BUFFER     96   words      96   words    Receive audio samples collected by ADC via DMA. 57,600 Hz sample rate.
-//                   : RX ADC BUFFER COUNT      16              16            Permits up to 26.67mS of demodulation processing delay prior to sample loss.
-//                   : RX DATA BUFFER           8    words      8    words    Data buffers where sliced bits demodulated from receive audio are collected.
-//                   : RX BUFFER COUNT          9               9             Allows additional data accumulation during packet decoding.
-//                   : AX25 RECEIVER            1068  bytes     1068 bytes    Limits maximum AX.25 receive packet size, inclusive of header, payload, and CRC.
-//                   : IL2P RECEIVER            1023 bytes      1023 bytes    Limits maximum IL2P receive packet payload size, exclusive of header and parity symbols.
-//                   : UART TO HOST             1100 bytes      1100 bytes    Limits maximum KISS frame size returned to host.
 // 3/4.08: 22-Feb-22 : Added 3-bit unit ID set by switches.
 // 3/4.09: 23-Feb-22 : Improved receive UART buffer overflow handling.
 // 3/4.10: 27-Feb-22 : Restored cylon LED pattern at boot with serial number set from switches.
@@ -187,27 +161,6 @@
 //                   : adopt callsigns that have more than 1 numeric digit.
 // 3/4.21: 21-Jan-23 : Inhibit slicer DCD logic for input signals below ~200mV.
 //                   :
-//                   : MODE switch mapping:
-//                   :
-//                   : 0000 9600 GFSK AX.25 ⌉ These modes require a data port or
-//                   : 0001 9600 GFSK IL2P  ⎮ discriminator/varactor connection.
-//                   : 0010 4800 GFSK AX.25 ⎮
-//                   : 0011 4800 GFSK IL2P  ⌋
-//                   :
-//                   : 0100 2400 DPSK AX.25 ⌉ These modes are suitable for
-//                   : 0101 2400 DPSK IL2P  ⎮ speaker/mic connection.
-//                   : 0110 1200 AFSK AX.25 ⎮
-//                   : 0111 1200 AFSK IL2P  ⌋
-//                   :
-//                   : 1100  300 AFSK AX.25 ⌉ These modes are intended for SSB
-//                   : 1101  300 AFSK IL2P  ⎮ operation.
-//                   : 1110  150 AFSK AX.25 ⎮
-//                   : 1111  150 AFSK IL2P  ⌋
-//                   :
-//                   : 1000                 ⌉ These switch settings are reserved
-//                   : 1001                 ⎮ for future modes. For now, they
-//                   : 1010                 ⎮ will behave the same as the SSB
-//                   : 1011                 ⌋ modes above.
 // 3/4.22: 26-Apr-23 : Add Gaussian pulse filter for 150 and 300 baud.
 //                   : Add NCO dithering.
 // 3/4.23: 26-Apr-23 : Switch PWM DAC to Center-Align mode.
@@ -233,78 +186,12 @@
 //                   : Adjusted QPSK phase map to match ITU V.26A.
 //                   : Fixed IL2P buffer memory address conflict, this was causing packet loss and retries in IL2P modes.
 //                   :
-//                   : Latest MODE switch mapping:
-//                   :
-//                   : 0000 9600 GFSK AX.25 ⌉ These modes require a data port or
-//                   : 0001 9600 GFSK IL2P  ⎮ discriminator/varactor connection.
-//                   : 0010 --------------- ⎮ Deleted 4800 AX.25
-//                   : 0011 4800 GFSK IL2P  ⌋
-//                   :
-//                   : 0100 --------------- ⌉ Deleted 2400 DPSK AX.25
-//                   : 0101 2400 DPSK IL2P  ⎮ These modes are suitable for
-//                   : 0110 1200 AFSK AX.25 ⎮ speaker/mic connection on
-//                   : 0111 1200 AFSK IL2P  ⌋ FM voice radios.
-//                   :
-//                   : 1100  300 AFSK AX.25 ⌉ Legacy SSB AFSK packet using
-//                   : 1101  300 AFSK IL2P  ⎮ 1600/1800Hz tones.
-//                   : 1110 --------------- ⎮ Deleted 150 AFSK AX.25.
-//                   : 1111 --------------- ⌋ Deleted 150 AFSK IL2P.
-//                   :
-//                   : 1000 --------------- ⌉ PSK modes centered on 1500Hz carrier.
-//                   : 1001  600 QPSK IL2P  ⎮ 500 Hz bandwidth, 300 baud.
-//                   : 1010 1200 BPSK IL2P  ⎮ 2400 Hz bandwidth, 1200 baud.
-//                   : 1011 --------------- ⌋
 // 3/4.31: 24-Oct-23 :
 //                   : Improved DCD LED coast time and CSMA logic.
 //                   : Added IL2P+CRC (IL2Pc) modes to reduce false decodes.
 //                   : Restored full dynamic range of AGC.
 //                   : Change self-learn callsign algorithm to UI frames only.
 //                   :
-//                   :                 MODE SWITCH MAPPING
-//                   :
-//                   : ****************** GFSK MODES ***************************
-//                   : These require a '9600' data port or                     *
-//                   : discriminator/varactor connection.                      *
-//                   : IL2P, IL2Pc modes included for performance comparison.  *
-//                   : *********************************************************
-//                   : 0000 9600 GFSK AX.25                                    *
-//                   : 0001 9600 GFSK IL2P                                     *
-//                   : 0010 9600 GFSK IL2Pc                                    *
-//                   : 0011 4800 GFSK IL2P                                     *
-//                   : 0100 4800 GFSK IL2Pc                                    *
-//                   : *********************************************************
-//                   :
-//                   : ****************** FM AFSK MODES ************************
-//                   : These are suitable for FM radio speaker/                *
-//                   : mic connection.                                         *
-//                   : *********************************************************
-//                   : 0101 2400 DPSK IL2P  Phase reversal of 2400 Hz tone     *
-//                   : 0110 1200 AFSK AX.25 Legacy FM Packet, APRS             *
-//                   : 0111 1200 AFSK IL2P                                     *
-//                   : *********************************************************
-//                   :
-//                   : ****************** SSB AFSK MODES ***********************
-//                   : Legacy HF packet 1600/1800 Hz tone FSK.                 *
-//                   : Filtered for 500 Hz occupied bandwidth.                 *
-//                   : *********************************************************
-//                   : 1100  300 AFSK AX.25                                    *
-//                   : 1101  300 AFSK IL2P                                     *
-//                   : 1110  300 AFSK IL2Pc                                    *
-//                   : *********************************************************
-//                   :
-//                   : ****************** SHAPED PSK MODES *********************
-//                   : These are suitable for SSB radios, or FM radios.        *
-//                   : Phase modulation of 1500 Hz tone.                       *
-//                   : Filtered for occupied bandwidth depending on baud.      *
-//                   : 300 BPSK, 600 QPSK send 300 symbols/sec, 500 Hz OBW.    *
-//                   : 1200 BPSK, 2400 QPSK send 1200 symbols/sec, 2400 Hz OBW.*
-//                   : *********************************************************
-//                   : 1000  300 BPSK IL2Pc                                    *
-//                   : 1001  600 QPSK IL2Pc                                    *
-//                   : 1010 1200 BPSK IL2Pc                                    *
-//                   : 1011 2400 QPSK IL2Pc                                    *
-//                   : 1111 1200 BPSK IL2P                                     *
-//                   : *********************************************************
 // 3/4.32 13-Nov-23  :
 //                   : Correct Reed Solomon error correction bounding.
 //                   : Add "+CRC" to text of IDENT packet for IL2Pc modes.
@@ -357,4 +244,58 @@
 //                   : Demodulator performance improvements for AFSK, BPSK, and
 //                   : QPSK modes. 
 // 3/4.39 09-May-24  : Add QPSK 3600 at MODE switch  position 0101. Delete DPSK 2400.
-
+// 3/4.40 02-Aug-24  : Migrate PSK demodulator to modified costas loop with 
+//                   : complex carrier recovery. 
+//                   : Add IL2P selective CRC logic on receive.
+//                   : Omits CRC check if RS decoder indicated 0 errors.
+//                   : Adjust A2 mode map.
+//                   : Add 9600 bps C4FSK IL2Pc mode at switch position 0011,
+//                   : (replaces 4800 GFSK IL2P).
+//                   : Add 19200 bps C4FSK IL2Pc mode at switch position 0001,
+//                   : (replaces 9600 GFSK IL2P).
+//                   :
+//                   :
+//                   :             MODE SWITCH MAPPING v3/4.40
+//                   : 
+//                   : ****************** GFSK MODES ***************************
+//                   : These require an FM radio with '9600' data port or      *
+//                   : discriminator/varactor connection.                      *
+//                   : *********************************************************
+//                   : 0000 9600  GFSK AX.25   (20 kHz OBW)                    *
+//                   : 0001 19200 C4FSK IL2Pc  (20 kHz OBW)                    *
+//                   : 0010 9600  GFSK IL2Pc   (20 kHz OBW                     *
+//                   : 0011 9600  C4SK IL2Pc   (10 kHz OBW)                    *
+//                   : 0100 4800  GFSK IL2Pc   (10 kHz OBW)                    *
+//                   : *********************************************************
+//                   :
+//                   : ****************** FM AFSK MODES ************************
+//                   : These are suitable for FM radio speaker/                *
+//                   : mic connection.                                         *
+//                   : *********************************************************
+//                   : 0101 3600 AQPSK IL2Pc 1800 sym/sec on 1650Hz carrier    *
+//                   : 0110 1200 AFSK AX.25 Legacy FM Packet, APRS             *
+//                   : 0111 1200 AFSK IL2P                                     *
+//                   : *********************************************************
+//                   :
+//                   : ****************** SSB AFSK MODES ***********************
+//                   : Legacy HF packet 1600/1800 Hz tone FSK.                 *
+//                   : Filtered for 500 Hz occupied bandwidth.                 *
+//                   : *********************************************************
+//                   : 1100  300 AFSK AX.25                                    *
+//                   : 1101  300 AFSK IL2P                                     *
+//                   : 1110  300 AFSK IL2Pc                                    *
+//                   : *********************************************************
+//                   :
+//                   : ****************** SHAPED PSK MODES *********************
+//                   : These are suitable for SSB radios, or FM radios.        *
+//                   : Phase modulation of 1500 Hz tone.                       *
+//                   : Filtered for occupied bandwidth depending on baud.      *
+//                   : 300 BPSK, 600 QPSK send 300 symbols/sec, 500 Hz OBW.    *
+//                   : 1200 BPSK, 2400 QPSK send 1200 symbols/sec, 2400 Hz OBW.*
+//                   : *********************************************************
+//                   : 1000  300 BPSK IL2Pc                                    *
+//                   : 1001  600 QPSK IL2Pc                                    *
+//                   : 1010 1200 BPSK IL2Pc                                    *
+//                   : 1011 2400 QPSK IL2Pc                                    *
+//                   : 1111 1200 BPSK IL2P                                     *
+//                   : *********************************************************
