@@ -58,25 +58,26 @@ print('Scanning hex file to determine target chip.')
 hex_file_target = "unknown"
 line = file.readline()
 while line != "" and hex_file_target == "unknown":
-	if ':108800007a00fa0000002200000f7800c3e8a900f7' in line:
+	line=line.rstrip()
+	if ':108800007a00fa0000002200000f7800c3e8a900f7' == line:
 		hex_file_target = "dsPIC33EP512GP"
 		print("Hex file target:", hex_file_target)
-	if ':10427c007a00fa0000002200000f7800c3e8a900c1' in line:
+	if ':10427c007a00fa0000002200000f7800c3e8a900c1' == line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
-	if ':10427c007a00fa00403f9800ce389000010f780089' in line:
+	if ':10427c007a00fa00403f9800ce389000010f780089' == line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
-	if ':10427c007c00fa00503f980000002200000f7800ec'in line:
+	if ':10427c007c00fa00503f980000002200000f7800ec' == line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
-	if ':102800007c00fa00503f980000002200000f780082' in line:
+	if ':102800007c00fa00503f980000002200000f780082' == line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
-	if ':102800002f08b000889fbe008a9fbe008c9fbe002c' in line:
+	if ':102800002f08b000889fbe008a9fbe008c9fbe002c' == line:
 		hex_file_target = "dsPIC33EP256GP"
 		print("Hex file target:", hex_file_target)
-	if ':108800002f08b000889fbe008a9fbe008c9fbe00cc' in line:
+	if ':108800002f08b000889fbe008a9fbe008c9fbe00cc' == line:
 		hex_file_target = "dsPIC33EP512GP"
 		print("Hex file target:", hex_file_target)
 	line = file.readline()
