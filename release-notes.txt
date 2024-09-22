@@ -253,9 +253,16 @@
 //                   : (replaces 4800 GFSK IL2P).
 //                   : Add 19200 bps C4FSK IL2Pc mode at switch position 0001,
 //                   : (replaces 9600 GFSK IL2P).
+// 3/4.41 20-Aug-24  : Add automatic receive equalization for 4FSK modes.
+//                   : Add MODE selection by KISS command when switches are
+//                   : set to 1111. Use KISS SETHW command (0x6) followed by
+//                   : mode number in range 0-14. Mode number is based on the 
+//                   : MODE switch positions. 
+//                   : KISS MODE setting is written to flash memory. To prevent
+//                   : an immediate flash memory write, add 16 (0x10) to mode
+//                   : number in the KISS SETHW command.
 //                   :
-//                   :
-//                   :             MODE SWITCH MAPPING v3/4.40
+//                   :             MODE SWITCH MAPPING v3/4.41
 //                   : 
 //                   : ****************** GFSK MODES ***************************
 //                   : These require an FM radio with '9600' data port or      *
@@ -297,5 +304,6 @@
 //                   : 1001  600 QPSK IL2Pc                                    *
 //                   : 1010 1200 BPSK IL2Pc                                    *
 //                   : 1011 2400 QPSK IL2Pc                                    *
-//                   : 1111 1200 BPSK IL2P                                     *
+//                   : *********************************************************
+//                   : 1111 Enable KISS SETHW command to select operating mode *
 //                   : *********************************************************
