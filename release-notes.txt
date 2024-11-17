@@ -261,8 +261,25 @@
 //                   : KISS MODE setting is written to flash memory. To prevent
 //                   : an immediate flash memory write, add 16 (0x10) to mode
 //                   : number in the KISS SETHW command.
+// 3/4.42 25-Oct-24  : Add coherent FSK demodulation for 300 AFSK IL2Pc 
+//                   : by using a PLL scheme. PLL pull-in range is +/-50Hz,
+//                   : allows improved reception of misaligned SSB frequencies.
+//                   : Add additional correlator pair for 300 AFSK AX25,
+//                   : allows misaligned SSB frequencies up to +/-30Hz.
+//                   : Improve CSMA slot timing algorithm accuracy.
+//                   : Toggle DCDLED at SLOT timer expiration, to give 
+//                   : visible indication of CSMA SLOT WAIT status and slot time.
+//                   : Improve receive sensitivities for all narrow HF modes:
+//                   :      BPSK 300 (+1dB)
+//                   :      QPSK 600 (+2dB)
+//                   :      AFSK 300 (+4dB)
+//                   : Improve AFSK 300 transmit waveform to reduce ISI.
+//                   : Increase Bessel Null tuning tones for C4FSK modes:
+//                   : New tuning tones:
+//                   :      C4FSK 9600 - 1039Hz for 2.5kHz outer deviation
+//                   :      C4FSK 19200 - 2079Hz for 5.0kHz outer deviation
 //                   :
-//                   :             MODE SWITCH MAPPING v3/4.41
+//                   :             MODE SWITCH MAPPING v3/4.42
 //                   : 
 //                   : ****************** GFSK MODES ***************************
 //                   : These require an FM radio with '9600' data port or      *
@@ -281,7 +298,7 @@
 //                   : *********************************************************
 //                   : 0101 3600 AQPSK IL2Pc 1800 sym/sec on 1650Hz carrier    *
 //                   : 0110 1200 AFSK AX.25 Legacy FM Packet, APRS             *
-//                   : 0111 1200 AFSK IL2P                                     *
+//                   : 0111 1200 AFSK IL2Pc                                   *
 //                   : *********************************************************
 //                   :
 //                   : ****************** SSB AFSK MODES ***********************
