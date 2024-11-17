@@ -1,2 +1,0 @@
-MPLAB Checksum: F3CA
-CRC32: 56EFED83
