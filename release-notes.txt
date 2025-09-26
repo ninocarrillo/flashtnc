@@ -278,8 +278,15 @@
 //                   : New tuning tones:
 //                   :      C4FSK 9600 - 1039Hz for 2.5kHz outer deviation
 //                   :      C4FSK 19200 - 2079Hz for 5.0kHz outer deviation
+// 3/4.43 10-Aug-25  : Add Morse ID feature for HF modes.
+//                   : Fix bug that would sometimes cause first data sent after
+//                   : ID beacon to be sent without preamble.
+//                   : Adjust 300 AFSK transmit waveform slightly wider, still
+//                   : less than 500 Hz OBW.
+//                   : Deactivate parallel decoders during loopback test.
+//                   : Adjust correlator gain on AFSk demodulator 1.
 //                   :
-//                   :             MODE SWITCH MAPPING v3/4.42
+//                   :             MODE SWITCH MAPPING v3/4.43
 //                   : 
 //                   : ****************** GFSK MODES ***************************
 //                   : These require an FM radio with '9600' data port or      *
@@ -298,7 +305,7 @@
 //                   : *********************************************************
 //                   : 0101 3600 AQPSK IL2Pc 1800 sym/sec on 1650Hz carrier    *
 //                   : 0110 1200 AFSK AX.25 Legacy FM Packet, APRS             *
-//                   : 0111 1200 AFSK IL2Pc                                   *
+//                   : 0111 1200 AFSK IL2Pc                                    *
 //                   : *********************************************************
 //                   :
 //                   : ****************** SSB AFSK MODES ***********************
