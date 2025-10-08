@@ -331,3 +331,7 @@
 //                   : *********************************************************
 //                   : 1111 Enable KISS SETHW command to select operating mode *
 //                   : *********************************************************
+// 3/4.44 7-Oct-25   : Fix KISS AX.25 header rip for ACKMODE.
+//                   : Inhibit ident function until own callsign set.
+//                   : Fix AFSK 300 IL2Pc receive after test button.
+//                   : Adjust modulator flush bits by mode.
