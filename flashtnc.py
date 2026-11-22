@@ -80,6 +80,13 @@ while line != "" and hex_file_target == "unknown":
 	if ':108800002f08b000889fbe008a9fbe008c9fbe00cc' == line:
 		hex_file_target = "dsPIC33EP512GP"
 		print("Hex file target:", hex_file_target)
+	if ':102800006a00fa00889fbe008a9fbe008c9fbe00af' == line: # 5.aa
+		hex_file_target = "dsPIC33EP256GP"
+		print("Hex file target:", hex_file_target)
+	if ':108800007e00fa00889fbe008a9fbe008c9fbe003b' == line: # 6.aa
+		hex_file_target = "dsPIC33EP512GP"
+		print("Hex file target:", hex_file_target)
+		
 	line = file.readline()
 
 if hex_file_target == "unknown":
